@@ -7,6 +7,10 @@ humanities professionals who can describe a desired design but do not know MCP,
 APIs, or Figma plugin development. Hosted MCP pricing and token-based setup make
 the first successful edit unnecessarily difficult.
 
+The free path depends on a personal Figma Starter workspace. Organization users
+with only Dev, Collab, or View seats cannot run plugins in Figma Design under
+Figma's current seat policy.
+
 ## Outcome
 
 A user installs once, opens a Figma file, starts one visible plugin, and asks

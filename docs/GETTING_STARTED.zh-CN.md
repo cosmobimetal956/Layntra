@@ -3,6 +3,15 @@
 你不需要懂代码，也不需要购买 Figma 的 MCP 套餐。整个过程只在你的
 电脑上运行。
 
+## 先确认 Figma 空间
+
+免费使用请选择个人 **Starter** 空间。Figma 官方允许 Starter 用户在
+Figma Design 中运行插件。
+
+如果你加入了公司组织，但只有 **Dev、Collab 或 View seat**，Figma
+Design 会阻止导入插件，并显示申请 Full seat。此时不要申请付费席位，
+切换到个人 Starter 空间即可。Full seat 用户也可以正常使用。
+
 ## 第一次安装
 
 ### 1. 安装 Codex 插件
@@ -18,7 +27,7 @@
 ### 2. 导入 Figma 插件
 
 1. 打开 Figma Desktop。
-2. 打开任意一个用于测试的文件。
+2. 在个人 Starter 空间打开一个用于测试的 Design 文件。
 3. 选择 **Plugins → Development → Import plugin from manifest…**。
 4. 选择项目根目录中的 `manifest.json`。
 

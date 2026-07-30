@@ -29,6 +29,10 @@ You do not need to understand MCP, APIs, JSON, or Figma's developer platform.
 Open a file, start the Figma plugin, then describe the result you want in
 Codex. See the [Chinese beginner guide](docs/GETTING_STARTED.zh-CN.md).
 
+Figma Design plugins work on a free personal Starter plan or with a Full seat.
+An organization-only Dev, Collab, or View seat cannot run plugins in Figma
+Design; switch to a personal Starter workspace for the free path.
+
 ## Install the Figma plugin
 
 1. Open the target design file in **Figma Desktop**.
