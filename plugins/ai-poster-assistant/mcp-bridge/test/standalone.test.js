@@ -49,7 +49,7 @@ test("bridge starts and answers MCP initialize without installed packages", asyn
   });
 
   assert.equal(response.id, 1);
-  assert.equal(response.result.serverInfo.name, "ai-poster-mcp-bridge");
+  assert.equal(response.result.serverInfo.name, "figma-local-mcp");
   assert.ok(response.result.capabilities.tools);
 });
 
@@ -75,7 +75,39 @@ test("bridge advertises bounded generic design tools", async (t) => {
   });
 
   const names = response.result.tools.map((tool) => tool.name);
-  assert.deepEqual(["get_document", "get_selection", "create_nodes", "update_nodes"].filter((name) => !names.includes(name)), []);
+  assert.deepEqual(["get_status", "get_document", "get_selection", "create_nodes", "update_nodes"].filter((name) => !names.includes(name)), []);
   const createNodes = response.result.tools.find((tool) => tool.name === "create_nodes");
   assert.equal(createNodes.inputSchema.properties.nodes.maxItems, 100);
+});
+
+test("status explains how to connect when Figma is not open", async (t) => {
+  const child = spawn(process.execPath, [path.join(bridgeDir, "server.js")], {
+    env: { ...process.env, AI_POSTER_PORT: "0" },
+    stdio: ["pipe", "pipe", "pipe"]
+  });
+  t.after(() => child.kill());
+
+  const response = await new Promise((resolve, reject) => {
+    let stdout = "";
+    const timeout = setTimeout(() => reject(new Error("Timed out waiting for get_status")), 3_000);
+    child.stdout.on("data", (chunk) => {
+      stdout += chunk;
+      const line = stdout.split("\n").find(Boolean);
+      if (!line) return;
+      clearTimeout(timeout);
+      resolve(JSON.parse(line));
+    });
+    child.on("error", reject);
+    child.stdin.write(`${JSON.stringify({
+      jsonrpc: "2.0",
+      id: 3,
+      method: "tools/call",
+      params: { name: "get_status", arguments: {} }
+    })}\n`);
+  });
+
+  const status = JSON.parse(response.result.content[0].text);
+  assert.equal(status.bridge, "ready");
+  assert.equal(status.figmaPlugin, "not_connected");
+  assert.match(status.nextStep, /Figma Local MCP/);
 });

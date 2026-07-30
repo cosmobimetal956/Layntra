@@ -16,5 +16,6 @@ jobs:
         with:
           node-version: 20
       - run: node --check code.js
+      - run: bash -n scripts/install-codex-plugin.sh
       - run: npm --prefix plugins/ai-poster-assistant/mcp-bridge run check
       - run: npm --prefix plugins/ai-poster-assistant/mcp-bridge test

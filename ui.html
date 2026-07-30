@@ -2,71 +2,182 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-      :root { color-scheme: light dark; }
+      :root {
+        color-scheme: light dark;
+        --bg: var(--figma-color-bg, #ffffff);
+        --surface: var(--figma-color-bg-secondary, #f5f5f5);
+        --text: var(--figma-color-text, #1e1e1e);
+        --muted: var(--figma-color-text-secondary, #666666);
+        --border: var(--figma-color-border, #dedede);
+        --brand: #5b5bd6;
+        --success: #16825d;
+        --warning: #a15c00;
+        --radius: 12px;
+      }
       * { box-sizing: border-box; }
-      body { margin: 0; padding: 20px; font: 13px/1.45 Inter, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; color: #111; background: var(--figma-color-bg, #fff); }
-      h1 { margin: 0 0 6px; font-size: 18px; }
-      p { margin: 0 0 18px; color: #666; }
-      .card { padding: 14px; margin: 12px 0; border: 1px solid #ddd; border-radius: 10px; }
-      label { display: block; margin: 9px 0 5px; font-weight: 600; }
-      input { width: 100%; padding: 8px; border: 1px solid #bbb; border-radius: 6px; background: transparent; color: inherit; }
-      button { width: 100%; margin-top: 12px; padding: 10px 12px; border: 0; border-radius: 7px; background: #ff4500; color: white; font-weight: 700; cursor: pointer; }
-      button.secondary { background: #222; }
-      button:disabled { opacity: .45; cursor: wait; }
-      #status { min-height: 20px; margin-top: 10px; color: #666; }
-      #status.error { color: #d92d20; }
-      #status.success { color: #067647; }
-      .hint { font-size: 11px; color: #777; }
+      body {
+        margin: 0;
+        padding: 20px;
+        font: 13px/1.5 Inter, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+      h1 { margin: 0; font-size: 21px; line-height: 1.25; }
+      h2 { margin: 0 0 10px; font-size: 14px; }
+      p { margin: 6px 0 0; color: var(--muted); }
+      .eyebrow { margin-bottom: 6px; color: var(--brand); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+      .status {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin: 18px 0;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface);
+      }
+      .dot { width: 12px; height: 12px; flex: 0 0 auto; border-radius: 50%; background: var(--warning); }
+      .status.connected .dot { background: var(--success); }
+      .status strong { display: block; }
+      .status span { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; }
+      .steps {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        counter-reset: step;
+      }
+      .steps li {
+        position: relative;
+        min-height: 38px;
+        padding: 1px 0 14px 42px;
+        color: var(--muted);
+      }
+      .steps li::before {
+        counter-increment: step;
+        content: counter(step);
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: grid;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        color: var(--text);
+        background: var(--surface);
+        font-weight: 700;
+      }
+      .prompt {
+        margin-top: 8px;
+        padding: 12px 14px;
+        border-left: 3px solid var(--brand);
+        border-radius: 0 9px 9px 0;
+        background: var(--surface);
+        color: var(--text);
+      }
+      details { margin-top: 18px; border-top: 1px solid var(--border); padding-top: 14px; }
+      summary { cursor: pointer; color: var(--muted); font-weight: 600; }
+      label { display: block; margin: 10px 0 5px; font-weight: 600; }
+      input { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 7px; background: transparent; color: inherit; }
+      button {
+        width: 100%;
+        min-height: 40px;
+        margin-top: 10px;
+        border: 0;
+        border-radius: 8px;
+        background: var(--brand);
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      button:disabled { opacity: .55; cursor: wait; }
+      #message { min-height: 20px; margin-top: 10px; color: var(--muted); }
+      #message.error { color: #c43232; }
+      #message.success { color: var(--success); }
+      :focus-visible { outline: 3px solid #8b8bf0; outline-offset: 2px; }
+      @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
     </style>
   </head>
   <body>
+    <div class="eyebrow">LOCAL · PRIVATE · EDITABLE</div>
     <h1>Figma Local MCP</h1>
-    <p>本地桥已启动时，Codex 可以读取和编辑当前 Figma 文件。下方保留海报快捷操作。</p>
+    <p>让 Codex 直接理解并编辑你现在打开的 Figma 文件。</p>
 
-    <div class="card">
+    <section id="connection" class="status" aria-live="polite">
+      <div class="dot" aria-hidden="true"></div>
+      <div>
+        <strong id="connection-title">正在连接本地桥…</strong>
+        <span id="connection-detail">窗口保持打开即可，不需要 Figma Token。</span>
+      </div>
+    </section>
+
+    <h2>只要三步</h2>
+    <ol class="steps">
+      <li>保持这个窗口打开</li>
+      <li>回到 Codex，用日常语言描述你想做什么</li>
+      <li>Codex 会先看当前页面，再创建或修改可编辑图层</li>
+    </ol>
+
+    <h2>可以直接这样说</h2>
+    <div class="prompt">“看看我选中的内容，帮我把信息层级整理得更清楚。”</div>
+    <div class="prompt">“做一张简洁、可继续编辑的读书会邀请卡。”</div>
+
+    <details>
+      <summary>海报快捷工具（可选示例）</summary>
       <label for="photo">嘉宾照片</label>
       <input id="photo" type="file" accept="image/png,image/jpeg,image/webp" />
-      <div class="hint">自动使用 Fill 居中裁切，并隐藏竖版的人像占位图。</div>
-      <button id="replace">替换两个模板的照片</button>
-    </div>
+      <button id="replace">替换模板照片</button>
 
-    <div class="card">
-      <strong>可选：同步更新文字</strong>
       <label for="guest">嘉宾名</label>
-      <input id="guest" placeholder="例如：王小明" />
+      <input id="guest" />
       <label for="date">日期</label>
-      <input id="date" placeholder="例如：22 AUG 2026" />
+      <input id="date" />
       <label for="time">时间</label>
-      <input id="time" placeholder="例如：19:00 — 20:30" />
-      <button id="details" class="secondary">更新已填写的文字</button>
-    </div>
+      <input id="time" />
+      <button id="details">更新已填写文字</button>
+    </details>
 
-    <div id="status" role="status"></div>
-    <div id="bridge" class="hint">本地 MCP Bridge：未连接</div>
+    <div id="message" role="status"></div>
 
     <script>
       const $ = (id) => document.getElementById(id);
-      const status = $("status");
-      const setStatus = (message, kind = "") => { status.textContent = message; status.className = kind; };
       const post = (pluginMessage) => parent.postMessage({ pluginMessage }, "*");
+      const message = $("message");
       let bridge;
+      let retryTimer;
+
+      function setMessage(text, kind = "") {
+        message.textContent = text;
+        message.className = kind;
+      }
+
+      function setConnection(connected) {
+        $("connection").classList.toggle("connected", connected);
+        $("connection-title").textContent = connected ? "已连接，可以开始" : "本地桥尚未连接";
+        $("connection-detail").textContent = connected
+          ? "现在回到 Codex，直接描述你想完成的设计。"
+          : "请先在 Codex 安装并启用 Figma Local MCP 插件。";
+      }
 
       function connectBridge() {
+        clearTimeout(retryTimer);
         bridge = new WebSocket("ws://localhost:3846");
         bridge.onopen = () => {
-          $("bridge").textContent = "本地 MCP Bridge：已连接";
+          setConnection(true);
           bridge.send(JSON.stringify({ type: "hello", client: "ai-poster-assistant" }));
         };
         bridge.onclose = () => {
-          $("bridge").textContent = "本地 MCP Bridge：未连接（可继续手动使用）";
-          setTimeout(connectBridge, 2000);
+          setConnection(false);
+          retryTimer = setTimeout(connectBridge, 2000);
         };
         bridge.onerror = () => bridge.close();
         bridge.onmessage = (event) => {
-          const message = JSON.parse(event.data);
-          if (message.type === "command") {
-            post({ type: "mcp-command", requestId: message.requestId, command: message.command, args: message.args });
+          const incoming = JSON.parse(event.data);
+          if (incoming.type === "command") {
+            post({ type: "mcp-command", requestId: incoming.requestId, command: incoming.command, args: incoming.args });
           }
         };
       }
@@ -74,16 +185,16 @@
 
       $("replace").onclick = async () => {
         const file = $("photo").files[0];
-        if (!file) return setStatus("请先选择一张嘉宾照片。", "error");
+        if (!file) return setMessage("请先选择一张照片。", "error");
         $("replace").disabled = true;
-        setStatus("正在替换照片…");
+        setMessage("正在替换照片…");
         const bytes = Array.from(new Uint8Array(await file.arrayBuffer()));
         post({ type: "replace-photo", bytes });
       };
 
       $("details").onclick = () => {
         $("details").disabled = true;
-        setStatus("正在更新文字…");
+        setMessage("正在更新文字…");
         post({
           type: "apply-details",
           guestName: $("guest").value,
@@ -94,15 +205,15 @@
       };
 
       onmessage = (event) => {
-        const message = event.data.pluginMessage;
-        if (!message) return;
-        if (message.type === "mcp-result") {
-          if (bridge && bridge.readyState === WebSocket.OPEN) bridge.send(JSON.stringify(message));
+        const incoming = event.data.pluginMessage;
+        if (!incoming) return;
+        if (incoming.type === "mcp-result") {
+          if (bridge?.readyState === WebSocket.OPEN) bridge.send(JSON.stringify(incoming));
           return;
         }
         $("replace").disabled = false;
         $("details").disabled = false;
-        setStatus(message.message, message.type);
+        setMessage(incoming.message, incoming.type);
       };
     </script>
   </body>

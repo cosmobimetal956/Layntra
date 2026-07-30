@@ -1,6 +1,6 @@
 // The iframe stays hidden but remains alive as the local MCP transport.
 // Launch this once after opening the Figma file; Codex then drives it through MCP.
-figma.showUI(__html__, { width: 1, height: 1, visible: false, themeColors: true });
+figma.showUI(__html__, { width: 380, height: 560, visible: true, themeColors: true });
 
 const TARGET_NAME = "PHOTO / Replace speaker portrait";
 const HIDE_AFTER_REPLACE = [

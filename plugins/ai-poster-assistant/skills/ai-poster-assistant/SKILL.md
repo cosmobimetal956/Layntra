@@ -1,11 +1,12 @@
 ---
 name: ai-poster-assistant
-description: Inspect and edit the user's currently open Figma Desktop file through a local bridge. Use for reading selections, creating editable layouts, updating nodes, or applying the included event-poster helpers.
+description: Apply the optional event-poster example tools included with Figma Local MCP. Use only when the user explicitly asks to create or update a poster, speaker portrait, event date, or poster template.
 ---
 
-# Figma Local MCP
+# Poster Examples for Figma Local MCP
 
-This plugin controls only the Figma Desktop file that the user has open through a local WebSocket bridge. It does not use a Figma API token or send design data to a cloud service.
+This is an optional example workflow built on top of Figma Local MCP. It is not
+the core product and must not trigger for general Figma editing.
 
 ## Before using a tool
 
@@ -13,12 +14,8 @@ Ask the user to open the target Figma file in Figma Desktop and run **AI Poster 
 
 If a tool reports that the Figma plugin is not connected, explain that the local Figma plugin needs to be started and do not retry until the user confirms it is open.
 
-## Available tools
+## Poster tools
 
-- `get_document`: inspect a bounded tree on the current page.
-- `get_selection`: inspect the selected nodes and bounded descendants.
-- `create_nodes`: create up to 100 editable frames, rectangles, or text nodes.
-- `update_nodes`: update common properties by node ID without deleting nodes.
 - `list_templates`: inspect editable poster templates on the current page.
 - `replace_guest_photo`: replace every layer named `PHOTO / Replace speaker portrait` with a supplied local image.
 - `set_event_details`: update named guest, date, time, or combined date-time layers. Only supply fields the user explicitly wants changed.

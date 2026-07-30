@@ -1,6 +1,8 @@
 # Figma Local MCP
 
-An open-source, local-first bridge that lets Codex inspect and edit the Figma Desktop file you already have open—without a Figma API token or a hosted MCP subscription.
+Open-source local infrastructure that lets anyone describe a design in everyday
+language and have Codex build it as editable Figma layers—without a Figma API
+token or a hosted MCP subscription.
 
 The integration is local-only: the Figma plugin connects to `ws://127.0.0.1:3846`. It does not use a Figma API token or a cloud MCP service.
 
@@ -15,35 +17,43 @@ The integration is local-only: the Figma plugin connects to `ws://127.0.0.1:3846
 - Inspect the current page or selection.
 - Create editable frames, rectangles, and text layers in batches.
 - Update names, position, size, fill, visibility, and text by node ID.
-- Keep the original event-poster helpers for existing templates.
+- Load optional Skills for posters and other repeatable workflows.
 - Run entirely on the local machine through a loopback-only bridge.
 
-The public source of truth is `manifest.json`, `code.js`, `ui.html`, and
-`plugins/ai-poster-assistant/`. The root `mcp-bridge/` is legacy development
-material and will be removed before the first stable release.
+The poster workflow is now an optional example Skill. The core plugin is
+general-purpose and does not assume that the user is making a poster.
+
+## Who this is for
+
+You do not need to understand MCP, APIs, JSON, or Figma's developer platform.
+Open a file, start the Figma plugin, then describe the result you want in
+Codex. See the [Chinese beginner guide](docs/GETTING_STARTED.zh-CN.md).
 
 ## Install the Figma plugin
 
 1. Open the target design file in **Figma Desktop**.
 2. Choose **Plugins → Development → Import plugin from manifest…**.
 3. Select this repository's `manifest.json`.
-4. Run **Plugins → Development → AI Poster Assistant** and leave its window open.
+4. Run **Plugins → Development → Figma Local MCP** and leave its status window open.
 
 ## Install the Codex plugin
 
-1. Add the repository marketplace to Codex:
+From this repository, run:
 
-   ```bash
-   codex plugin marketplace add /absolute/path/to/ai-poster-assistant
-   ```
+```bash
+./scripts/install-codex-plugin.sh
+```
 
-2. Install **AI Poster Assistant** from the Codex plugin browser.
-
-There are no runtime npm dependencies. With the Figma plugin open, ask Codex to
-inspect the current page, create a layout, or update selected layers.
+The installer checks Codex and Node.js, registers this repository as the
+`figma-local-mcp` marketplace, and installs the Codex plugin. Start a new Codex
+task afterward so the new Skill and tools are loaded.
 
 > Inspect my current Figma page, then create an editable 1200×630 launch card
 > with a dark background, headline, subtitle, and CTA.
+
+If anything is unclear, ask Codex:
+
+> 检查 Figma Local MCP 是否准备好了，并告诉我下一步。
 
 ## Architecture
 

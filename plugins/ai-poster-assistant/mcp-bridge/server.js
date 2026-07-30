@@ -116,6 +116,11 @@ httpServer.on("upgrade", (request, socket) => {
 httpServer.listen(PORT, HOST, () => console.error(`AI Poster MCP Bridge ready. WebSocket: ws://${HOST}:${httpServer.address().port}`));
 
 const tools = [
+  {
+    name: "get_status",
+    description: "Check whether the local bridge and Figma Desktop plugin are ready. Call this first when setup is uncertain.",
+    inputSchema: { type: "object", properties: {} }
+  },
   { name: "get_document", description: "Inspect a bounded tree of nodes on the current Figma page.", inputSchema: { type: "object", properties: {} } },
   { name: "get_selection", description: "Inspect the currently selected Figma nodes, including bounded descendants.", inputSchema: { type: "object", properties: {} } },
   {
@@ -179,6 +184,16 @@ const tools = [
 
 async function toolCall(name, args = {}) {
   if (!tools.some((tool) => tool.name === name)) throw new Error(`Unknown tool: ${name}`);
+  if (name === "get_status") {
+    const pluginConnected = [...clients].some((socket) => socket.isFigmaPlugin && !socket.destroyed);
+    return {
+      bridge: "ready",
+      figmaPlugin: pluginConnected ? "connected" : "not_connected",
+      nextStep: pluginConnected
+        ? "Ready. Inspect the current page or selection."
+        : "Open Figma Desktop, open a file, then run Plugins → Development → Figma Local MCP."
+    };
+  }
   if (name === "create_nodes" && (!Array.isArray(args.nodes) || args.nodes.length < 1 || args.nodes.length > 100)) {
     throw new Error("create_nodes requires 1–100 node specifications.");
   }
@@ -213,7 +228,7 @@ process.stdin.on("data", async (chunk) => {
     try {
       request = JSON.parse(line);
       if (request.method === "initialize") {
-        reply(request.id, { protocolVersion: "2025-06-18", capabilities: { tools: {} }, serverInfo: { name: "ai-poster-mcp-bridge", version: "1.0.0" } });
+        reply(request.id, { protocolVersion: "2025-06-18", capabilities: { tools: {} }, serverInfo: { name: "figma-local-mcp", version: "0.2.0" } });
       } else if (request.method === "tools/list") {
         reply(request.id, { tools });
       } else if (request.method === "tools/call") {
