@@ -1,0 +1,9 @@
+node_modules/
+plugins/ai-poster-assistant/mcp-bridge/node_modules/
+/mcp-bridge/
+.DS_Store
+
+# Demo photos and source-poster exports are intentionally not published.
+assets/
+TEMPLATE 02 / VERTICAL 4_5 /
+TEMPLATE 02 / VERTICAL 4_5 / 1080x1350.jpg

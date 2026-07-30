@@ -1,0 +1,13 @@
+{
+  "name": "Figma Local MCP",
+  "id": "1490319470956042817",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["ws://localhost:3846", "http://localhost:3846"],
+    "reasoning": "Connect only to the user's local MCP Bridge so AI commands can update the currently open Figma file without any cloud API or external network access."
+  }
+}

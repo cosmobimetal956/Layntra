@@ -1,0 +1,24 @@
+{
+  "name": "ai-poster-assistant",
+  "version": "1.0.0",
+  "description": "Use Codex to inspect and edit the open Figma Desktop file through a local-only MCP bridge.",
+  "author": {
+    "name": "AI Poster Assistant contributors"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Figma Local MCP",
+    "shortDescription": "Inspect and edit your open Figma file locally.",
+    "longDescription": "A local-only Codex integration for inspecting selections, creating editable layouts, and updating nodes in Figma Desktop through a loopback bridge.",
+    "developerName": "AI Poster Assistant contributors",
+    "category": "Productivity",
+    "capabilities": ["Write"],
+    "defaultPrompt": [
+      "Inspect the current page in my open Figma file.",
+      "Create an editable launch card in my current Figma page.",
+      "Update the selected Figma layers while preserving their structure."
+    ],
+    "brandColor": "#246BFD"
+  },
+  "mcpServers": "./.mcp.json"
+}

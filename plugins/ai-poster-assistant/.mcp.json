@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "ai-poster-bridge": {
+      "title": "AI Poster Assistant",
+      "description": "Local bridge to an AI Poster Assistant instance running in Figma Desktop.",
+      "cwd": "./mcp-bridge",
+      "command": "node",
+      "args": ["server.js"]
+    }
+  }
+}

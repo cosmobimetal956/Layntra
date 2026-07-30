@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      :root { color-scheme: light dark; }
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 20px; font: 13px/1.45 Inter, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; color: #111; background: var(--figma-color-bg, #fff); }
+      h1 { margin: 0 0 6px; font-size: 18px; }
+      p { margin: 0 0 18px; color: #666; }
+      .card { padding: 14px; margin: 12px 0; border: 1px solid #ddd; border-radius: 10px; }
+      label { display: block; margin: 9px 0 5px; font-weight: 600; }
+      input { width: 100%; padding: 8px; border: 1px solid #bbb; border-radius: 6px; background: transparent; color: inherit; }
+      button { width: 100%; margin-top: 12px; padding: 10px 12px; border: 0; border-radius: 7px; background: #ff4500; color: white; font-weight: 700; cursor: pointer; }
+      button.secondary { background: #222; }
+      button:disabled { opacity: .45; cursor: wait; }
+      #status { min-height: 20px; margin-top: 10px; color: #666; }
+      #status.error { color: #d92d20; }
+      #status.success { color: #067647; }
+      .hint { font-size: 11px; color: #777; }
+    </style>
+  </head>
+  <body>
+    <h1>Figma Local MCP</h1>
+    <p>本地桥已启动时，Codex 可以读取和编辑当前 Figma 文件。下方保留海报快捷操作。</p>
+
+    <div class="card">
+      <label for="photo">嘉宾照片</label>
+      <input id="photo" type="file" accept="image/png,image/jpeg,image/webp" />
+      <div class="hint">自动使用 Fill 居中裁切，并隐藏竖版的人像占位图。</div>
+      <button id="replace">替换两个模板的照片</button>
+    </div>
+
+    <div class="card">
+      <strong>可选：同步更新文字</strong>
+      <label for="guest">嘉宾名</label>
+      <input id="guest" placeholder="例如：王小明" />
+      <label for="date">日期</label>
+      <input id="date" placeholder="例如：22 AUG 2026" />
+      <label for="time">时间</label>
+      <input id="time" placeholder="例如：19:00 — 20:30" />
+      <button id="details" class="secondary">更新已填写的文字</button>
+    </div>
+
+    <div id="status" role="status"></div>
+    <div id="bridge" class="hint">本地 MCP Bridge：未连接</div>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const status = $("status");
+      const setStatus = (message, kind = "") => { status.textContent = message; status.className = kind; };
+      const post = (pluginMessage) => parent.postMessage({ pluginMessage }, "*");
+      let bridge;
+
+      function connectBridge() {
+        bridge = new WebSocket("ws://localhost:3846");
+        bridge.onopen = () => {
+          $("bridge").textContent = "本地 MCP Bridge：已连接";
+          bridge.send(JSON.stringify({ type: "hello", client: "ai-poster-assistant" }));
+        };
+        bridge.onclose = () => {
+          $("bridge").textContent = "本地 MCP Bridge：未连接（可继续手动使用）";
+          setTimeout(connectBridge, 2000);
+        };
+        bridge.onerror = () => bridge.close();
+        bridge.onmessage = (event) => {
+          const message = JSON.parse(event.data);
+          if (message.type === "command") {
+            post({ type: "mcp-command", requestId: message.requestId, command: message.command, args: message.args });
+          }
+        };
+      }
+      connectBridge();
+
+      $("replace").onclick = async () => {
+        const file = $("photo").files[0];
+        if (!file) return setStatus("请先选择一张嘉宾照片。", "error");
+        $("replace").disabled = true;
+        setStatus("正在替换照片…");
+        const bytes = Array.from(new Uint8Array(await file.arrayBuffer()));
+        post({ type: "replace-photo", bytes });
+      };
+
+      $("details").onclick = () => {
+        $("details").disabled = true;
+        setStatus("正在更新文字…");
+        post({
+          type: "apply-details",
+          guestName: $("guest").value,
+          date: $("date").value,
+          time: $("time").value,
+          dateTime: [$("date").value, $("time").value].filter(Boolean).join(" · ")
+        });
+      };
+
+      onmessage = (event) => {
+        const message = event.data.pluginMessage;
+        if (!message) return;
+        if (message.type === "mcp-result") {
+          if (bridge && bridge.readyState === WebSocket.OPEN) bridge.send(JSON.stringify(message));
+          return;
+        }
+        $("replace").disabled = false;
+        $("details").disabled = false;
+        setStatus(message.message, message.type);
+      };
+    </script>
+  </body>
+</html>
