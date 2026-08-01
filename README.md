@@ -9,21 +9,33 @@ ready. Every result remains editable in Figma.
 
 [简体中文](README.zh-CN.md)
 
+## Download
+
+**[Download Layntra v0.1.0](https://github.com/lessthanno/Layntra/releases/tag/v0.1.0)**
+
+On the release page, download `layntra-figma-plugin.zip` under **Assets**, then
+unzip it—do not import the ZIP itself. Follow step 4 below to choose the included
+plugin file. This download is the Figma side of Layntra; the Codex plugin is
+installed in step 1 below.
+
 ## Quick start
 
 Requirements: macOS, Node.js 20+, Codex Desktop or CLI, and Figma Desktop. Use a
 personal Starter workspace if an organization Dev/Collab/View seat cannot run
 Design plugins.
 
-1. Clone this repository and run `./scripts/install.sh`.
-2. Open a Design file in Figma Desktop.
-3. Choose **Plugins → Development → Import plugin from manifest…** and select
-   `apps/figma-plugin/manifest.json`.
+1. Clone this repository and run `./scripts/install.sh` to install the Codex
+   plugin.
+2. Download and unzip the **Figma companion** using the button above.
+3. Open a Design file in Figma Desktop.
+4. Choose **Plugins → Development → Import plugin from manifest…** and select
+   `layntra-figma-plugin/manifest.json` from the unzipped download. If you cloned
+   the repository, `apps/figma-plugin/manifest.json` is the same plugin.
 
 ![Figma menu path: Plugins, Development, Import plugin from manifest](docs/assets/figma-import-manifest-path.png)
 
-4. Run **Plugins → Development → Layntra for Figma** and keep its window open.
-5. Start a new Codex task and enter:
+5. Run **Plugins → Development → Layntra for Figma** and keep its window open.
+6. Start a new Codex task and enter:
 
 ```text
 $layntra status

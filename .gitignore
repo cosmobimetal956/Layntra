@@ -2,6 +2,7 @@ node_modules/
 .worktrees/
 packages/mcp-bridge/node_modules/
 /mcp-bridge/
+/dist/
 .DS_Store
 
 # Demo photos and source-poster exports are intentionally not published.

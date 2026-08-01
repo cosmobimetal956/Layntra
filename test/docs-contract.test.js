@@ -52,3 +52,18 @@ test("bilingual onboarding embeds the Figma manifest import path screenshot", as
     assert.match(content, /figma-import-manifest-path\.png/, `${file} is missing the import-path screenshot`);
   }
 });
+
+test("bilingual onboarding exposes the stable Figma companion download", async () => {
+  const download = "https://github.com/lessthanno/Layntra/releases/tag/v0.1.0";
+  for (const file of [
+    "README.md",
+    "README.zh-CN.md",
+    "docs/en/getting-started.md",
+    "docs/zh-CN/getting-started.md"
+  ]) {
+    const content = await readFile(file, "utf8");
+    assert.match(content, new RegExp(download.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `${file} is missing the download`);
+    assert.match(content, /layntra-figma-plugin\.zip/, `${file} must name the release asset`);
+    assert.match(content, /unzip|解压/i, `${file} must explain that the download needs extraction`);
+  }
+});

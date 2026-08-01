@@ -8,6 +8,7 @@
   },
   "scripts": {
     "check": "node --check apps/figma-plugin/code.js && node --check packages/mcp-bridge/server.js",
+    "package:figma": "bash scripts/package-figma-plugin.sh",
     "test": "node --test packages/mcp-bridge/test/*.test.js test/*.test.js",
     "audit:public": "bash scripts/audit-public.sh",
     "verify": "npm run check && npm test && npm run audit:public"

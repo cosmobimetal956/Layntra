@@ -5,17 +5,22 @@ This guide assumes no plugin-development experience.
 ## Install
 
 1. Install Node.js 20+, Codex Desktop or CLI, and Figma Desktop.
-2. Clone Layntra and run `./scripts/install.sh` from the repository root.
-3. Open a Design file in Figma Desktop. A personal Starter workspace is the
+2. Clone Layntra and run `./scripts/install.sh` from the repository root to
+   install the Codex plugin.
+3. Open **[Layntra v0.1.0](https://github.com/lessthanno/Layntra/releases/tag/v0.1.0)**,
+   download `layntra-figma-plugin.zip` under **Assets**, then unzip it. Do not
+   import the ZIP itself.
+4. Open a Design file in Figma Desktop. A personal Starter workspace is the
    free path when an organization Dev/Collab/View seat blocks Design plugins.
-4. Choose **Plugins → Development → Import plugin from manifest…**.
-5. Select `apps/figma-plugin/manifest.json`.
+5. Choose **Plugins → Development → Import plugin from manifest…**.
+6. Select `layntra-figma-plugin/manifest.json` inside the unzipped download.
+   The equivalent source path is `apps/figma-plugin/manifest.json`.
 
 ![Figma menu path: Plugins, Development, Import plugin from manifest](../assets/figma-import-manifest-path.png)
 
-6. Run **Plugins → Development → Layntra for Figma** and keep its status window
+7. Run **Plugins → Development → Layntra for Figma** and keep its status window
    open.
-7. Start a new Codex task so the installed plugin is loaded.
+8. Start a new Codex task so the installed plugin is loaded.
 
 ## Confirm the connection
 

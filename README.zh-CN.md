@@ -7,20 +7,30 @@ Layntra 是为产品经理和非技术用户准备的 Codex 插件。用 `$laynt
 
 [English](README.md)
 
+## 下载插件
+
+**[下载 Layntra v0.1.0](https://github.com/lessthanno/Layntra/releases/tag/v0.1.0)**
+
+打开 Release 页面后，在 **Assets** 里下载 `layntra-figma-plugin.zip`。下载后
+先解压，不要直接导入 ZIP；按照下面第 4 步选择解压后的插件文件。这个下载包是
+Layntra 的 Figma 端，Codex 插件在下面第 1 步安装。
+
 ## 五分钟开始
 
 需要 macOS、Node.js 20+、Codex Desktop 或 CLI，以及 Figma Desktop。如果公司的
 Dev/Collab/View seat 不能运行 Design 插件，请切换到个人 Starter 免费空间。
 
-1. 克隆本仓库，运行 `./scripts/install.sh`。
-2. 在 Figma Desktop 中打开一个 Design 文件。
-3. 选择 **Plugins → Development → Import plugin from manifest…**，导入
-   `apps/figma-plugin/manifest.json`。
+1. 克隆本仓库，运行 `./scripts/install.sh`，安装 Codex 插件。
+2. 点击上方按钮下载并解压 **Figma 伴侣插件**。
+3. 在 Figma Desktop 中打开一个 Design 文件。
+4. 选择 **Plugins → Development → Import plugin from manifest…**，导入解压后
+   的 `layntra-figma-plugin/manifest.json`。如果你克隆了仓库，也可以导入同一
+   插件的源码路径 `apps/figma-plugin/manifest.json`。
 
 ![Figma 配置路径：Plugins、Development、Import plugin from manifest](docs/assets/figma-import-manifest-path.png)
 
-4. 运行 **Plugins → Development → Layntra for Figma**，保持窗口打开。
-5. 新建 Codex 任务，输入：
+5. 运行 **Plugins → Development → Layntra for Figma**，保持窗口打开。
+6. 新建 Codex 任务，输入：
 
 ```text
 $layntra status
