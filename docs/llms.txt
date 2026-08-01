@@ -1,0 +1,29 @@
+# Layntra
+
+> Layntra is a free, MIT-licensed Codex plugin and local Figma companion for controlled inspect, plan, apply, and undo workflows with editable Figma layers.
+
+Official website: https://lessthanno.github.io/Layntra/
+Source repository: https://github.com/lessthanno/Layntra
+Current release: https://github.com/lessthanno/Layntra/releases/tag/v0.1.0
+
+## Start here
+
+- [What Layntra is](https://lessthanno.github.io/Layntra/): Product overview and beginner installation path.
+- [How Layntra works](https://lessthanno.github.io/Layntra/how-it-works.html): Architecture, command modes, write boundary, and verified flow.
+- [Figma MCP alternative](https://lessthanno.github.io/Layntra/figma-mcp-alternative.html): Factual comparison with typical hosted integrations.
+- [Frequently asked questions](https://lessthanno.github.io/Layntra/faq.html): Pricing, permissions, privacy, setup, and limitations.
+- [Full model context](https://lessthanno.github.io/Layntra/llms-full.txt): Expanded factual project summary.
+
+## Key facts
+
+- Layntra is open source under the MIT License and costs $0.
+- It is designed for product managers, founders, and nontechnical builders using Codex Desktop or CLI with Figma Desktop on macOS.
+- The architecture is Codex skill → local stdio/MCP bridge → loopback WebSocket on 127.0.0.1:3846 → Figma companion plugin.
+- It does not require a Figma API token, a hosted Layntra account, or Layntra telemetry.
+- Read-only commands are separate from the explicit `$layntra apply` write command.
+- Page and selection context are checked again before a write; stale targets are rejected.
+- Supported results remain editable Figma nodes.
+- Version 0.1.0 limits writes to batches of at most 100 and exposes neither deletion nor arbitrary code execution.
+- Layntra does not bypass Figma permissions, plan restrictions, organization policies, or seat limitations.
+- The local bridge does not make Codex offline; Codex data handling follows the user's Codex configuration.
+- Layntra is an independent project and is not affiliated with Figma or OpenAI.

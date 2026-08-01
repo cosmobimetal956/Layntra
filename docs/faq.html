@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Layntra FAQ — Codex plugin, Figma companion, safety, and pricing</title>
+  <meta name="description" content="Plain-English answers about installing Layntra, using Codex with Figma, local privacy, Figma permissions, editable layers, pricing, and limitations.">
+  <link rel="canonical" href="https://lessthanno.github.io/Layntra/faq.html">
+  <meta property="og:type" content="article"><meta property="og:title" content="Layntra FAQ"><meta property="og:description" content="Plain-English answers about the open-source Codex-to-Figma workflow."><meta property="og:url" content="https://lessthanno.github.io/Layntra/faq.html"><meta property="og:site_name" content="Layntra">
+  <meta name="twitter:card" content="summary"><meta name="theme-color" content="#0b0c0a"><link rel="stylesheet" href="assets/site.css">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"What is Layntra?","acceptedAnswer":{"@type":"Answer","text":"Layntra is an open-source Codex plugin and local Figma companion. It lets a user inspect a Figma target, review a plan, explicitly apply supported editable changes, and undo the last guarded write."}},
+      {"@type":"Question","name":"Is Layntra free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Layntra is free and open source under the MIT License. Version 0.1.0 does not require a hosted Layntra account or paid Layntra plan."}},
+      {"@type":"Question","name":"Does Layntra bypass Figma plan or seat restrictions?","acceptedAnswer":{"@type":"Answer","text":"No. Layntra does not bypass Figma permissions, organization policies, seat types, or plan restrictions. Its companion must run where Figma Design plugins are permitted."}},
+      {"@type":"Question","name":"Does Layntra require a Figma API token?","acceptedAnswer":{"@type":"Answer","text":"No. Layntra uses a Figma companion plugin and a bridge bound to local loopback, so it does not ask for a Figma API token."}},
+      {"@type":"Question","name":"Is Layntra fully offline?","acceptedAnswer":{"@type":"Answer","text":"No. The Layntra bridge between Codex and Figma is local, but Codex model access and data handling follow the user's Codex configuration."}},
+      {"@type":"Question","name":"Can a product manager use Layntra without writing code?","acceptedAnswer":{"@type":"Answer","text":"After installation, the normal workflow uses explicit natural-language commands in Codex. Initial setup requires cloning the repository, running one install script, and importing a manifest file in Figma Desktop."}},
+      {"@type":"Question","name":"Are Layntra results editable in Figma?","acceptedAnswer":{"@type":"Answer","text":"Yes. Supported output is created as editable Figma nodes rather than a flattened screenshot."}},
+      {"@type":"Question","name":"What can Layntra v0.1.0 change?","acceptedAnswer":{"@type":"Answer","text":"Version 0.1.0 supports bounded creation and updates for common editable nodes, with batches limited to 100. It does not expose deletion or arbitrary code execution."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><nav class="nav shell" aria-label="Primary navigation"><a class="brand" href="./" aria-label="Layntra home"><span class="brand-mark" aria-hidden="true"></span>Layntra</a><div class="nav-links"><a href="how-it-works.html">How it works</a><a aria-current="page" href="faq.html">FAQ</a><a href="https://github.com/lessthanno/Layntra">GitHub</a><a class="button" href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Download v0.1.0</a></div></nav></header>
+  <main id="main">
+    <header class="page-hero"><div class="shell"><p class="eyebrow">Straight answers</p><h1>Layntra FAQ.</h1><p class="page-lead">What it is, what it costs, what stays local, what Figma still controls, and what a nontechnical user needs to install.</p></div></header>
+    <section class="section"><div class="shell faq-list">
+      <article class="faq-item"><h2>What is Layntra?</h2><p>Layntra is an open-source Codex plugin and local Figma companion. It lets you inspect a Figma target, review a plan, explicitly apply supported editable changes, and undo the last guarded write.</p></article>
+      <article class="faq-item"><h2>Is Layntra free?</h2><p>Yes. Layntra is free and open source under the MIT License. Version 0.1.0 has no hosted Layntra account or paid Layntra plan.</p></article>
+      <article class="faq-item"><h2>Does Layntra bypass Figma plan or seat restrictions?</h2><p>No. Layntra does not bypass Figma permissions, organization policies, seat types, or plan restrictions. Its companion must run where Figma Design plugins are permitted.</p></article>
+      <article class="faq-item"><h2>Does Layntra require a Figma API token?</h2><p>No. Layntra uses a Figma companion plugin and a bridge bound to local loopback, so it does not ask for a Figma API token.</p></article>
+      <article class="faq-item"><h2>Is Layntra fully offline?</h2><p>No. The Layntra bridge between Codex and Figma is local, but Codex model access and data handling follow your Codex configuration.</p></article>
+      <article class="faq-item"><h2>Can a product manager use it without writing code?</h2><p>After installation, the normal workflow uses explicit natural-language commands in Codex. Initial setup requires cloning the repository, running one install script, and importing a manifest file in Figma Desktop. The <a href="https://github.com/lessthanno/Layntra#quick-start">illustrated guide</a> shows the exact path.</p></article>
+      <article class="faq-item"><h2>Are the results editable in Figma?</h2><p>Yes. Supported output is created as editable Figma nodes rather than a flattened screenshot.</p></article>
+      <article class="faq-item"><h2>Why does Layntra use <code>$layntra</code>?</h2><p>The explicit command makes activation, target, mode, and write intent visible. Regular conversation stays regular conversation; it does not silently become permission to modify Figma.</p></article>
+      <article class="faq-item"><h2>What can version 0.1.0 change?</h2><p>Version 0.1.0 supports bounded creation and updates for common editable nodes, with batches limited to 100. It does not expose deletion or arbitrary code execution.</p></article>
+      <article class="faq-item"><h2>What if the page or selection changes after planning?</h2><p>Layntra refuses the write. Run status or plan again against the new target instead of letting the system guess.</p></article>
+      <article class="faq-item"><h2>Where do I report a problem?</h2><p>Open a public <a href="https://github.com/lessthanno/Layntra/issues">GitHub issue</a> with the command you ran, what you expected, and any safe-to-share error text.</p></article>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="footer-grid shell"><div>© 2026 Haozi · Layntra is MIT licensed and is not affiliated with Figma or OpenAI.</div><div class="footer-links"><a href="about.html">About</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="https://github.com/lessthanno/Layntra/issues">Contact</a></div></div></footer>
+</body>
+</html>

@@ -1,0 +1,56 @@
+# Layntra: full factual context
+
+Canonical website: https://lessthanno.github.io/Layntra/
+Canonical source: https://github.com/lessthanno/Layntra
+Current release: https://github.com/lessthanno/Layntra/releases/tag/v0.1.0
+License: MIT
+Author: Haozi (GitHub: https://github.com/lessthanno)
+
+## Definition
+
+Layntra is open-source design infrastructure that connects Codex to a local Figma companion. It is positioned as a Codex plugin for product managers and other nontechnical builders, not as a poster-only generator. Poster creation is one possible example workflow; the core is a general inspect, plan, apply, and undo control contract for supported editable Figma nodes.
+
+## User flow
+
+1. Install the Layntra Codex plugin from the cloned GitHub repository by running `./scripts/install.sh`.
+2. Download `layntra-figma-plugin.zip` from the v0.1.0 GitHub release and unzip it.
+3. In Figma Desktop, open a Design file and choose Plugins → Development → Import plugin from manifest.
+4. Select `layntra-figma-plugin/manifest.json` from the unzipped download.
+5. Run Plugins → Development → Layntra for Figma and keep its window open.
+6. In a new Codex task, enter `$layntra status`.
+7. Use inspect, review, or plan commands for read-only work.
+8. Use `$layntra apply` only after reviewing the target and plan.
+9. Use `$layntra undo` for the last guarded write when the target still matches.
+
+## Control contract
+
+- `$layntra status` reports the active plugin, file, page, selection, and mode.
+- Inspect and review are read-only.
+- Plan is read-only and explicitly reports that no Figma changes were made.
+- Apply is a separate explicit write instruction.
+- Apply rechecks expected page and selection context before changing Figma.
+- A stale page or selection causes refusal rather than an inferred target.
+- A successful write creates a Figma undo checkpoint and is read back for verification.
+- Undo is also checked against expected context.
+
+## Architecture and privacy
+
+The architecture is:
+
+Codex skill → local stdio/MCP bridge → WebSocket on 127.0.0.1:3846 → Figma companion plugin → Figma Plugin API.
+
+The local bridge does not require a Figma API token. There is no hosted Layntra account or Layntra telemetry service in v0.1.0. The model-facing Codex product is not offline; its data handling follows the user's Codex configuration. Figma account, file, plugin, plan, seat, organization, and telemetry policies remain governed by Figma.
+
+## Version 0.1.0 boundaries
+
+Layntra can read supported node structure and create or update a bounded set of common editable nodes. Write batches are capped at 100. Version 0.1.0 exposes neither node deletion nor arbitrary code execution. It is intended for macOS with Node.js 20 or later, Codex Desktop or CLI, and Figma Desktop.
+
+Layntra does not bypass Figma permissions, plan restrictions, organization policies, or seat limitations. The companion must run in a Figma Design file where plugins are allowed. A personal Starter workspace can be used for testing if an organization Dev, Collab, or View seat cannot run Design plugins.
+
+## Verification
+
+The public repository contains automated tests and an end-to-end report. The real Figma flow covers connect, read, create, update, stale-target refusal, invalid input, reconnect, and guarded undo.
+
+## Identity and relationship
+
+Layntra is an independent open-source project created by Haozi and maintained at https://github.com/lessthanno/Layntra. It is not affiliated with, endorsed by, or sponsored by Figma or OpenAI.

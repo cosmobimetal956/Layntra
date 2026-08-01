@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open-source Figma MCP alternative for Codex — Layntra</title>
+  <meta name="description" content="Compare Layntra with hosted Figma MCP workflows: a free local bridge, explicit apply and undo, editable layers, and no Figma API token.">
+  <link rel="canonical" href="https://lessthanno.github.io/Layntra/figma-mcp-alternative.html">
+  <meta property="og:type" content="article"><meta property="og:title" content="An open-source Figma MCP alternative for Codex"><meta property="og:description" content="When you want editable Figma writes with a local bridge and an explicit control boundary."><meta property="og:url" content="https://lessthanno.github.io/Layntra/figma-mcp-alternative.html"><meta property="og:site_name" content="Layntra">
+  <meta name="twitter:card" content="summary"><meta name="theme-color" content="#0b0c0a"><link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><nav class="nav shell" aria-label="Primary navigation"><a class="brand" href="./" aria-label="Layntra home"><span class="brand-mark" aria-hidden="true"></span>Layntra</a><div class="nav-links"><a href="how-it-works.html">How it works</a><a href="faq.html">FAQ</a><a href="https://github.com/lessthanno/Layntra">GitHub</a><a class="button" href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Download v0.1.0</a></div></nav></header>
+  <main id="main">
+    <header class="page-hero"><div class="shell"><p class="eyebrow">A practical comparison</p><h1>An open-source Figma MCP alternative for Codex.</h1><p class="page-lead">Layntra is for people who want Codex to inspect and change editable Figma layers through a local companion—with an explicit plan and write command.</p></div></header>
+    <section class="section"><div class="shell">
+      <div class="section-intro"><h2>Choose the control model that fits your work.</h2><p>“Figma MCP” can describe different products. The useful comparison is not a brand claim; it is where the bridge runs, what credentials it needs, what can write, and how you recover.</p></div>
+      <div class="comparison-wrap"><table class="comparison"><thead><tr><th>Question</th><th>Layntra v0.1.0</th><th>Typical hosted integration</th></tr></thead><tbody>
+        <tr><td>Where is the bridge?</td><td>On your Mac, bound to local loopback</td><td>Often on a remote service</td></tr>
+        <tr><td>What account is required?</td><td>No hosted Layntra account</td><td>May require a provider account</td></tr>
+        <tr><td>Figma API token?</td><td>Not required</td><td>Depends on the integration</td></tr>
+        <tr><td>Write boundary</td><td>Separate <code>plan</code> and <code>apply</code> commands</td><td>Varies by product</td></tr>
+        <tr><td>Stale target protection</td><td>Page and selection are checked before writing</td><td>Varies by product</td></tr>
+        <tr><td>Output</td><td>Supported editable Figma nodes</td><td>May be read-only, image-based, or editable</td></tr>
+        <tr><td>Recovery</td><td>Guarded Figma undo checkpoint</td><td>Varies by product</td></tr>
+        <tr><td>License and price</td><td>MIT licensed; free</td><td>Depends on the provider</td></tr>
+      </tbody></table></div>
+    </div></section>
+    <section class="section"><div class="shell prose">
+      <h2>What Layntra does not promise</h2>
+      <p>Layntra does not bypass Figma plans, organization policies, seat types, or plugin permissions. The companion must run in a Figma Design file where your account is allowed to use plugins. If an organization seat blocks Design plugins, a personal Starter workspace may be suitable for testing.</p>
+      <p>Layntra also does not claim every hosted workflow needs a token or lacks controls. Integrations change. Check the current documentation of any product you compare.</p>
+      <h2>When Layntra is a good fit</h2>
+      <ul><li>You use Codex Desktop or CLI on macOS.</li><li>You want the result to remain editable in Figma.</li><li>You want inspect and plan to remain read-only.</li><li>You prefer a local bridge with no hosted Layntra account.</li><li>You are comfortable with an early, bounded open-source tool.</li></ul>
+      <h2>When it is not yet a fit</h2>
+      <ul><li>You need Windows or Linux support.</li><li>You need a hosted team service or centralized audit dashboard.</li><li>You need unrestricted access to every Figma node type or API.</li><li>Your Figma workspace does not permit the companion plugin to run.</li></ul>
+      <div class="actions"><a class="button" href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Download v0.1.0</a><a class="button-secondary" href="how-it-works.html">Inspect the architecture</a></div>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="footer-grid shell"><div>© 2026 Haozi · Layntra is MIT licensed and is not affiliated with Figma or OpenAI.</div><div class="footer-links"><a href="about.html">About</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="https://github.com/lessthanno/Layntra/issues">Contact</a></div></div></footer>
+</body>
+</html>

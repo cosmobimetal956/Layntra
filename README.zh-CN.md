@@ -7,6 +7,8 @@ Layntra 是为产品经理和非技术用户准备的 Codex 插件。用 `$laynt
 
 [English](README.md)
 
+**官网：** [lessthanno.github.io/Layntra](https://lessthanno.github.io/Layntra/)
+
 ## 下载插件
 
 **[下载 Layntra v0.1.0](https://github.com/lessthanno/Layntra/releases/tag/v0.1.0)**

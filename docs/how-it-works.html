@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How Layntra works — Local Codex-to-Figma architecture</title>
+  <meta name="description" content="See how Layntra connects Codex to Figma through a local loopback bridge, separates read and write modes, guards targets, and verifies changes.">
+  <link rel="canonical" href="https://lessthanno.github.io/Layntra/how-it-works.html">
+  <meta property="og:type" content="article"><meta property="og:title" content="How Layntra works"><meta property="og:description" content="The local architecture and visible control boundary behind Layntra."><meta property="og:url" content="https://lessthanno.github.io/Layntra/how-it-works.html"><meta property="og:site_name" content="Layntra">
+  <meta name="twitter:card" content="summary"><meta name="theme-color" content="#0b0c0a">
+  <link rel="stylesheet" href="assets/site.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Use Codex with Figma through Layntra",
+    "description": "Install Layntra, connect the local Figma companion, inspect a target, review a plan, and explicitly apply editable changes.",
+    "totalTime": "PT10M",
+    "tool": ["Codex Desktop or CLI", "Figma Desktop", "Node.js 20+"],
+    "step": [
+      {"@type":"HowToStep","position":1,"name":"Install the Codex plugin","text":"Clone the Layntra repository and run ./scripts/install.sh."},
+      {"@type":"HowToStep","position":2,"name":"Import the Figma companion","text":"Download and unzip the v0.1.0 release asset, then import its manifest.json in Figma Desktop."},
+      {"@type":"HowToStep","position":3,"name":"Check the target","text":"Run the Figma companion and enter $layntra status in a new Codex task."},
+      {"@type":"HowToStep","position":4,"name":"Plan before writing","text":"Use $layntra plan with your selected Figma target and review the proposed changes."},
+      {"@type":"HowToStep","position":5,"name":"Apply explicitly","text":"Enter $layntra apply. Layntra rechecks the target, writes supported editable nodes, and reads the result back."}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><nav class="nav shell" aria-label="Primary navigation"><a class="brand" href="./" aria-label="Layntra home"><span class="brand-mark" aria-hidden="true"></span>Layntra</a><div class="nav-links"><a aria-current="page" href="how-it-works.html">How it works</a><a href="faq.html">FAQ</a><a href="https://github.com/lessthanno/Layntra">GitHub</a><a class="button" href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Download v0.1.0</a></div></nav></header>
+  <main id="main">
+    <header class="page-hero"><div class="shell"><p class="eyebrow">Architecture and control model</p><h1>How Layntra works.</h1><p class="page-lead">A Codex skill defines the interaction. A bridge carries bounded commands over local loopback. A Figma companion applies supported changes only after an explicit write instruction.</p></div></header>
+    <section class="section"><div class="shell prose">
+      <h2>The path from Codex to Figma</h2>
+      <pre><code>Codex skill
+    ↓ local stdio / MCP
+Layntra bridge
+    ↓ WebSocket on 127.0.0.1:3846
+Figma companion plugin
+    ↓ supported Figma Plugin API operations
+Editable Figma nodes</code></pre>
+      <p>The bridge binds to <code>127.0.0.1</code>, so it accepts connections from the same machine rather than exposing a hosted Layntra endpoint. You do not create a Layntra account or provide a Figma API token.</p>
+      <p>Codex is still the model-facing part of the workflow. Its data handling follows your Codex configuration. “Local bridge” describes the connection between Codex and Figma; it does not mean the model runs offline.</p>
+
+      <h2>Four modes, two kinds of authority</h2>
+      <h3><code>$layntra status</code>, inspect, and review</h3>
+      <p>These are read-only. They can report the active companion, file, page, selection, and supported node structure, but they do not modify Figma.</p>
+      <h3><code>$layntra plan</code></h3>
+      <p>Planning converts your intent into a proposed change set tied to the current target. It remains read-only and reports “No Figma changes made.”</p>
+      <h3><code>$layntra apply</code></h3>
+      <p>Apply is the explicit write boundary. Before writing, Layntra checks that the page and selection still match the planned context. A stale target is rejected instead of guessed.</p>
+      <h3><code>$layntra undo</code></h3>
+      <p>Undo is available after a successful write and is guarded against the expected target. Layntra uses a Figma undo checkpoint rather than trying to reconstruct the previous design.</p>
+
+      <h2>What version 0.1.0 can and cannot do</h2>
+      <p>Layntra can inspect supported nodes, create editable frames, text, rectangles, ellipses, lines, and groups, and update a bounded set of properties. A write batch is limited to 100 nodes.</p>
+      <p>Version 0.1.0 exposes neither node deletion nor arbitrary code execution. It does not bypass Figma workspace, seat, plan, or plugin permissions. Use it only in files where your Figma account is allowed to run Design plugins.</p>
+
+      <h2>Verified flow</h2>
+      <p>The project includes automated contract and bridge tests plus a real Figma end-to-end run covering connection, reading, creation, update, stale-target rejection, invalid input, reconnection, and guarded undo. The test scope is documented in the <a href="https://github.com/lessthanno/Layntra/blob/main/docs/testing/e2e-report.md">public E2E report</a>.</p>
+      <div class="actions"><a class="button" href="https://github.com/lessthanno/Layntra#quick-start">Install Layntra</a><a class="button-secondary" href="faq.html">Read the FAQ</a></div>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="footer-grid shell"><div>© 2026 Haozi · Layntra is MIT licensed and is not affiliated with Figma or OpenAI.</div><div class="footer-links"><a href="about.html">About</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="https://github.com/lessthanno/Layntra/issues">Contact</a></div></div></footer>
+</body>
+</html>
