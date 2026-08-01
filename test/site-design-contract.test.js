@@ -8,21 +8,36 @@ test("the public homepage ships the selected graphic design system", async () =>
     readFile("docs/assets/site.css", "utf8")
   ]);
 
-  await access("docs/assets/hero-workflow.webp");
   await access("docs/assets/fonts/barlow-condensed-700.woff2");
   await access("docs/assets/fonts/inter-latin.woff2");
 
-  assert.match(homepage, /A visible<br>write path<br>from Codex<br>to Figma/);
-  assert.match(homepage, /class="section write-path"/);
+  assert.match(homepage, /See the write<br>before Figma<br>changes/);
+  assert.match(homepage, /data-layntra-demo/);
   assert.match(homepage, /class="install-steps"/);
-  assert.match(homepage, /src="assets\/hero-workflow\.webp"/);
-  assert.match(homepage, /alt="Layntra showing a connected Codex plan and explicit apply result"/);
+  assert.match(homepage, /class="figma-workspace"/);
+  assert.match(homepage, /class="figma-layers"/);
+  assert.match(homepage, /class="figma-inspector"/);
+  assert.match(homepage, /src="assets\/site-demo\.js"/);
 
   assert.match(stylesheet, /font-family:\s*"Barlow Condensed"/);
   assert.match(stylesheet, /--signal-blue:\s*#1646e8/);
   assert.match(stylesheet, /--signal-yellow:\s*#ffd51e/);
   assert.match(stylesheet, /color-scheme:\s*light/);
   assert.doesNotMatch(stylesheet, /--acid:/);
+});
+
+test("the product demo exposes the controlled Figma workflow", async () => {
+  const homepage = await readFile("docs/index.html", "utf8");
+
+  for (const step of ["inspect", "plan", "apply", "undo"]) {
+    assert.match(homepage, new RegExp(`data-demo-step="${step}"`));
+  }
+
+  assert.match(homepage, /data-demo-action="next"/);
+  assert.match(homepage, /data-demo-action="stale"/);
+  assert.match(homepage, /aria-live="polite"/);
+  assert.match(homepage, /Selection changed/);
+  assert.match(homepage, /Product simulation/);
 });
 
 test("the redesigned homepage keeps the beginner conversion path", async () => {
@@ -32,7 +47,7 @@ test("the redesigned homepage keeps the beginner conversion path", async () => {
   assert.match(homepage, new RegExp(release.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.match(homepage, />Install in Codex</);
   assert.match(homepage, />Import the Figma companion</);
-  assert.match(homepage, />Check the connection</);
+  assert.match(homepage, />Inspect your selection</);
   assert.match(homepage, />Open the illustrated install guide</);
 });
 

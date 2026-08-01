@@ -1,6 +1,6 @@
 # ADR 0005: Editorial graphic system for the public website
 
-- Status: Accepted
+- Status: Superseded by ADR 0006 for the homepage product surface; visual system remains active
 - Date: 2026-08-01
 - Owner: Haozi
 
