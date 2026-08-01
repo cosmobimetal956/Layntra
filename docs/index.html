@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Layntra — Local MCP plugin for Codex and Figma</title>
-  <meta name="description" content="Layntra is an open-source local MCP plugin for Codex and Figma with inspect, plan, apply, undo, and editable layer support.">
+  <title>Layntra — Local MCP bridge between Codex and Figma</title>
+  <meta name="description" content="Layntra is an open-source local MCP bridge that lets Codex inspect Figma selections and edit real, reversible Figma layers.">
   <link rel="canonical" href="https://lessthanno.github.io/Layntra/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Layntra — Local MCP plugin for Codex ↔ Figma">
-  <meta property="og:description" content="Inspect, plan, apply, and undo editable Figma changes from Codex over a local open-source MCP workflow.">
+  <meta property="og:title" content="Layntra — Local MCP bridge for Codex ↔ Figma">
+  <meta property="og:description" content="Let Codex inspect Figma selections and edit real, reversible layers through a local open-source MCP bridge.">
   <meta property="og:url" content="https://lessthanno.github.io/Layntra/">
   <meta property="og:site_name" content="Layntra">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Layntra — Local MCP for Codex ↔ Figma">
-  <meta name="twitter:description" content="Open-source local MCP workflow for editable Figma changes from Codex.">
+  <meta name="twitter:title" content="Layntra — MCP for Codex ↔ Figma">
+  <meta name="twitter:description" content="A local open-source MCP bridge from Codex to editable Figma layers.">
   <meta name="theme-color" content="#000000">
   <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/site.css">
@@ -27,7 +27,7 @@
         "@id": "https://lessthanno.github.io/Layntra/#software",
         "name": "Layntra",
         "alternateName": "Layntra for Figma",
-        "description": "An open-source local MCP plugin for controlled inspect, plan, apply, and undo workflows between Codex and editable Figma layers.",
+        "description": "An open-source local MCP bridge that lets Codex inspect Figma selections and edit reversible Figma layers.",
         "applicationCategory": "DeveloperApplication",
         "applicationSubCategory": "Design tools",
         "operatingSystem": "macOS",
@@ -65,7 +65,6 @@
       <a class="brand" href="./" aria-label="Layntra home">Layntra</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
       <div class="nav-links" id="site-menu">
-        <a href="#workflow">How it works</a>
         <a href="#install">Install</a>
         <a href="how-it-works.html">Docs</a>
         <a href="https://github.com/lessthanno/Layntra">GitHub</a>
@@ -76,113 +75,43 @@
 
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
-      <div class="shell hero-copy-block">
-        <h1 id="hero-title">The local MCP plugin<br>for Codex ↔ Figma.</h1>
-        <p>Inspect. Plan. Apply. Undo. Editable layers, local bridge, open source.</p>
+      <div class="shell hero-inner">
+        <h1 id="hero-title">Layntra connects<br>Codex to Figma<br>through MCP.</h1>
+        <p>Inspect selections. Edit real layers. Undo changes. Local and open source.</p>
         <div class="actions">
           <a class="button button-light" href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Download v0.1.0</a>
-          <a class="button button-dark" href="https://github.com/lessthanno/Layntra#quick-start">Install in Codex</a>
+          <a class="button button-dark" href="https://github.com/lessthanno/Layntra#quick-start">Install</a>
+          <a class="text-link" href="https://github.com/lessthanno/Layntra">GitHub <span aria-hidden="true">→</span></a>
         </div>
-      </div>
-
-      <div class="shell hero-release">
-        <span>Open source · MIT</span>
-        <a href="https://github.com/lessthanno/Layntra">View source <span aria-hidden="true">→</span></a>
-      </div>
-
-    </section>
-
-    <section class="workflow section" id="workflow" aria-labelledby="workflow-title">
-      <div class="shell section-heading">
-        <h2 id="workflow-title">Controlled by design.</h2>
-        <a class="button button-dark" href="how-it-works.html">See the control model</a>
-      </div>
-
-      <div class="shell feature-stack">
-        <article class="feature-card feature-card-wide">
-          <div class="feature-visual inspect-visual" aria-hidden="true">
-            <div class="inspect-canvas">
-              <img src="assets/layntra-canvas-artwork.png" width="1536" height="1024" alt="">
-              <span class="inspect-box"><i>Hero Frame</i></span>
-            </div>
-            <div class="inspect-readout"><span>Selection</span><strong>Hero Frame</strong><small>14 editable layers</small></div>
-          </div>
-          <div class="feature-copy"><span>Inspect</span><h3>Read the selected frame first.</h3><p>Page, selection, and editable nodes. No guessing.</p></div>
-        </article>
-
-        <div class="feature-pair">
-          <article class="feature-card">
-            <div class="feature-visual plan-visual" aria-hidden="true">
-              <div class="plan-sheet"><span>PLAN · HERO FRAME</span><strong>3 changes, 0 writes</strong><p>Headline scale <i>48 → 72</i></p><p>Copy width <i>520 → 420</i></p><p>CTA position <i>Bottom → Left</i></p></div>
-            </div>
-            <div class="feature-copy"><span>Plan</span><h3>Review before writing.</h3><p>A concrete plan tied to the inspected target.</p></div>
-          </article>
-
-          <article class="feature-card">
-            <div class="feature-visual guard-visual" aria-hidden="true">
-              <div class="guard-card"><span>Selection changed</span><strong>Apply blocked</strong><p>Planned: Hero Frame<br>Selected: Pricing Frame</p><b>Re-inspect target</b></div>
-            </div>
-            <div class="feature-copy"><span>Protect</span><h3>Wrong selection? Stop.</h3><p>A stale plan never writes to another frame.</p></div>
-          </article>
-        </div>
-
-        <article class="feature-card feature-card-wide feature-card-reverse">
-          <div class="feature-copy"><span>Apply + undo</span><h3>Editable in. Editable out.</h3><p>Write, verify, or restore the previous values.</p></div>
-          <div class="feature-visual apply-visual" aria-hidden="true">
-            <div class="apply-before"><span>Before</span><strong>48 px</strong></div>
-            <div class="apply-after"><span>Applied</span><strong>72 px</strong><small>Read-back verified</small></div>
-          </div>
-        </article>
+        <p class="hero-meta">Codex ↔ local MCP server ↔ Figma Desktop</p>
       </div>
     </section>
 
-    <section class="platform section" aria-labelledby="platform-title">
-      <div class="shell">
-        <h2 id="platform-title">Local by default.</h2>
-        <div class="platform-grid">
-          <article><span>Local bridge</span><h3>Codex ↔ Figma over loopback.</h3><p>No hosted Layntra service.</p></article>
-          <article><span>Editable output</span><h3>Native Figma properties stay native.</h3><p>Text, fills, frames, and positions.</p></article>
-          <article><span>Explicit writes</span><h3>Inspect and plan are read-only.</h3><p>Apply is a separate decision.</p></article>
-          <article><span>Open source</span><h3>Audit it. Fork it. Extend it.</h3><p>MIT licensed.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="install section" id="install" aria-labelledby="install-title">
-      <div class="shell section-heading install-heading">
-        <div><span class="section-label">From zero to first inspection</span><h2 id="install-title">Three steps.<br>No API token.</h2></div>
-        <p>Download the release, install the Codex plugin, then import the local Figma companion from its manifest. The illustrated guide is written for first-time plugin users.</p>
+    <section class="install" id="install" aria-labelledby="install-title">
+      <div class="shell install-heading">
+        <h2 id="install-title">Install.</h2>
+        <p>Download the release, run the Codex installer, then import the Figma companion from <code>manifest.json</code>.</p>
       </div>
 
       <div class="shell install-layout">
         <ol class="install-list">
-          <li><span>01</span><div><h3>Download Layntra</h3><p>Get the packaged Figma companion and the Codex plugin from the v0.1.0 release.</p><a href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Open the release <span aria-hidden="true">→</span></a></div></li>
-          <li><span>02</span><div><h3>Install in Codex</h3><p>Open the repository folder and run the included installer once.</p><code>./scripts/install.sh</code></div></li>
-          <li><span>03</span><div><h3>Import the Figma companion</h3><p>In Figma Desktop choose Plugins → Development → Import plugin from manifest, then select <code>manifest.json</code>.</p><a href="https://github.com/lessthanno/Layntra#quick-start">Open the illustrated install guide <span aria-hidden="true">→</span></a></div></li>
+          <li><span>01</span><div><h3>Download</h3><a href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Release v0.1.0 <span aria-hidden="true">→</span></a></div></li>
+          <li><span>02</span><div><h3>Install in Codex</h3><code>./scripts/install.sh</code></div></li>
+          <li><span>03</span><div><h3>Import in Figma Desktop</h3><p>Plugins → Development → Import plugin from manifest</p><a href="https://github.com/lessthanno/Layntra#quick-start">Illustrated guide <span aria-hidden="true">→</span></a></div></li>
         </ol>
         <figure class="install-figure">
           <img src="assets/figma-import-manifest-path.png" width="2048" height="1089" alt="Figma menu path: Plugins, Development, Import plugin from manifest">
-          <figcaption>Figma Desktop → Plugins → Development → Import plugin from manifest</figcaption>
+          <figcaption>Choose the included <code>manifest.json</code>.</figcaption>
         </figure>
       </div>
-      <p class="shell permission-note">Figma access varies by plan, workspace, and seat. Layntra works where Figma Design plugins are permitted; it does not bypass Figma permissions or plan restrictions.</p>
-    </section>
-
-    <section class="final-cta" aria-labelledby="final-title">
-      <div class="shell final-cta-inner">
-        <h2 id="final-title">Your next Figma change<br>can start in Codex.</h2>
-        <div class="actions">
-          <a class="button button-light" href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Download v0.1.0</a>
-          <a class="button button-dark" href="https://github.com/lessthanno/Layntra">View on GitHub</a>
-        </div>
-      </div>
+      <p class="shell permission-note">Layntra works where Figma Design plugins are permitted. It does not bypass Figma permissions or plan restrictions.</p>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="shell footer-grid">
       <a class="brand" href="./">Layntra</a>
-      <p>Open-source infrastructure for controlled Codex ↔ Figma workflows.</p>
+      <p>Local MCP for Codex ↔ Figma.</p>
       <div class="footer-links"><a href="about.html">About</a><a href="faq.html">FAQ</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
       <small>© 2026 Haozi · MIT licensed · Not affiliated with Figma or OpenAI.</small>
     </div>

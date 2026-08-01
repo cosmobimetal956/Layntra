@@ -14,21 +14,20 @@ The current Framer homepage demonstrates a clearer product-marketing hierarchy: 
 
 Rebuild the Layntra homepage around the same product-design principles while keeping all Layntra branding, copy, imagery, and implementation original.
 
-1. Lead with a literal category statement: Layntra is a local MCP plugin for Codex ↔ Figma.
-2. Do not place an oversized interactive simulation or integration-name strip above the workflow content. Technical visitors do not need the product category explained through a staged demo.
-3. Explain Inspect, Plan, Protect, Apply, and Undo through concise product cards.
-4. Use project-owned artwork in product examples and the real Figma import-path screenshot in installation guidance.
-5. Retain crawlable installation, safety, permissions, release, and source information.
-6. Preserve a static, dependency-free GitHub Pages build with a working mobile menu and reduced-motion support.
+1. Lead with the product's role: Layntra connects Codex to Figma through MCP.
+2. Keep the homepage to that role, primary actions, installation, and the footer. Remove the interactive simulation, integration-name strip, feature cards, control-model section, platform grid, and repeated final CTA.
+3. Retain the real Figma import-path screenshot because installation is the only workflow that still needs visual explanation.
+4. Retain crawlable safety, permissions, release, source, and installation facts without expanding them into marketing sections.
+5. Preserve a static, dependency-free GitHub Pages build with a working mobile menu and reduced-motion support.
 
 The Framer site is a structural and interaction reference only. Layntra does not copy Framer trademarks, copy, customer examples, source assets, or proprietary code.
 
 ## Consequences
 
 - The previous browser-only demo state reducer and its tests are removed with the discarded simulation.
-- The public site moves from a light editorial system to a dark product-led system with restrained radius, thin borders, one sans-serif family, and a single blue interaction accent.
-- Product artwork becomes a versioned project asset and must be included in public-audit checks.
-- Desktop and mobile QA must compare the implementation against captured Framer reference views for hierarchy, density, spacing, and interaction rhythm rather than literal content identity.
+- The public site uses a dark, typography-led system with one sans-serif family, a single blue accent, and no decorative product showcase.
+- The installation screenshot remains a versioned project asset and must be included in public-audit checks.
+- Desktop and mobile QA checks hierarchy, spacing, overflow, installation clarity, and the mobile navigation state.
 
 ## Superseded decisions
 

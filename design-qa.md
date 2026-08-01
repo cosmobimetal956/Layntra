@@ -1,23 +1,22 @@
-# Design QA — concise MCP homepage
+# Design QA — minimal MCP homepage
 
 final result: passed
 
-## Reference and implementation
+## Target
 
-- Desktop reference: `artifacts/framer-source/01-desktop-top.png`.
-- Mobile reference: `artifacts/framer-source/25-mobile-full-top.png`.
-- Desktop implementation: `artifacts/interaction-audit/11-mcp-clean-home.png`, 1440 × 900 CSS pixels.
-- Mobile implementation: `artifacts/interaction-audit/12-mcp-clean-mobile.png`, 390 × 844 CSS pixels.
-- The four images were inspected together in one comparison input at native aspect ratios.
+- One job: explain that Layntra connects Codex to Figma through MCP.
+- Keep only primary actions, installation, and the footer.
+- Retain the established black typography-led design and the real Figma import screenshot.
 
-## Result
+## Acceptance checks
 
-- The homepage keeps the reference's black surface, compact navigation, large literal headline, restrained buttons, generous whitespace, thin borders, and strong mobile reflow.
-- The oversized Figma/Codex product simulation and the Codex/Figma/Localhost/GitHub label strip were removed at the owner's request.
-- The first screen now says exactly what Layntra is: a local MCP plugin for Codex ↔ Figma.
-- Secondary copy is short and technical. Installation detail remains below the product explanation for first-time users.
-- The desktop and 390 px mobile views have no horizontal overflow. The mobile menu opens and reports `aria-expanded=true`.
-- Project-owned artwork and the real Figma manifest-import screenshot remain sharp and correctly cropped below the fold.
-- Focus styling and reduced-motion handling remain present.
+- No interactive demo, integration strip, feature cards, platform grid, or repeated final CTA.
+- One H1, direct MCP copy, release link, GitHub link, and install path.
+- Desktop and 390 px layouts must have no horizontal overflow.
+- Mobile menu must remain keyboard-operable and expose its expanded state.
 
-No actionable P0, P1, or P2 visual issue remains.
+## Browser verification
+
+- Desktop, 1440 × 900: one H1, complete install image, and no removed marketing sections; `scrollWidth` equals `innerWidth`.
+- Mobile, 390 × 844: no horizontal overflow; the menu opens and changes `aria-expanded` from `false` to `true`.
+- Captures: `artifacts/interaction-audit/18-mcp-role-desktop-final.png` and `artifacts/interaction-audit/19-mcp-role-mobile-final.png`.
