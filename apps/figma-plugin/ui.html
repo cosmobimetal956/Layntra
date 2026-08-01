@@ -10,7 +10,7 @@
         --surface: var(--figma-color-bg-secondary, #f5f5f5);
         --text: var(--figma-color-text, #1e1e1e);
         --muted: var(--figma-color-text-secondary, #666666);
-        --border: var(--figma-color-border, #dedede);
+        --border: var(--figma-color-border, #d8d8d8);
         --brand: #5b5bd6;
         --success: #16825d;
         --warning: #a15c00;
@@ -20,14 +20,44 @@
       body {
         margin: 0;
         padding: 20px;
-        font: 13px/1.5 Inter, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+        font: 13px/1.55 Inter, -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
         color: var(--text);
         background: var(--bg);
       }
+      header { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; }
       h1 { margin: 0; font-size: 21px; line-height: 1.25; }
-      h2 { margin: 0 0 10px; font-size: 14px; }
+      h2 { margin: 22px 0 10px; font-size: 14px; }
       p { margin: 6px 0 0; color: var(--muted); }
-      .eyebrow { margin-bottom: 6px; color: var(--brand); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+      button { font: inherit; }
+      .eyebrow {
+        margin-bottom: 6px;
+        color: var(--brand);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+      }
+      .language {
+        display: flex;
+        padding: 2px;
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        background: var(--surface);
+      }
+      .language button {
+        min-width: 58px;
+        min-height: 44px;
+        padding: 0 8px;
+        border: 0;
+        border-radius: 7px;
+        color: var(--muted);
+        background: transparent;
+        cursor: pointer;
+      }
+      .language button[aria-pressed="true"] {
+        color: #ffffff;
+        background: var(--brand);
+      }
       .status {
         display: flex;
         gap: 12px;
@@ -38,20 +68,21 @@
         border-radius: var(--radius);
         background: var(--surface);
       }
-      .dot { width: 12px; height: 12px; flex: 0 0 auto; border-radius: 50%; background: var(--warning); }
-      .status.connected .dot { background: var(--success); }
-      .status strong { display: block; }
-      .status span { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; }
-      .steps {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        counter-reset: step;
+      .dot {
+        width: 12px;
+        height: 12px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: var(--warning);
       }
+      .status.connected .dot { background: var(--success); }
+      .status strong, .status span { display: block; }
+      .status span { margin-top: 2px; color: var(--muted); font-size: 12px; }
+      .steps { margin: 0; padding: 0; list-style: none; counter-reset: step; }
       .steps li {
         position: relative;
-        min-height: 38px;
-        padding: 1px 0 14px 42px;
+        min-height: 44px;
+        padding: 2px 0 14px 44px;
         color: var(--muted);
       }
       .steps li::before {
@@ -61,8 +92,8 @@
         left: 0;
         top: 0;
         display: grid;
-        width: 28px;
-        height: 28px;
+        width: 30px;
+        height: 30px;
         place-items: center;
         border: 1px solid var(--border);
         border-radius: 50%;
@@ -70,151 +101,159 @@
         background: var(--surface);
         font-weight: 700;
       }
-      .prompt {
-        margin-top: 8px;
+      code {
+        display: block;
+        margin-top: 9px;
         padding: 12px 14px;
+        overflow-wrap: anywhere;
         border-left: 3px solid var(--brand);
         border-radius: 0 9px 9px 0;
-        background: var(--surface);
         color: var(--text);
+        background: var(--surface);
+        font: 600 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
       }
-      details { margin-top: 18px; border-top: 1px solid var(--border); padding-top: 14px; }
-      summary { cursor: pointer; color: var(--muted); font-weight: 600; }
-      label { display: block; margin: 10px 0 5px; font-weight: 600; }
-      input { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 7px; background: transparent; color: inherit; }
-      button {
-        width: 100%;
-        min-height: 40px;
-        margin-top: 10px;
-        border: 0;
-        border-radius: 8px;
-        background: var(--brand);
-        color: #fff;
-        font-weight: 700;
-        cursor: pointer;
-      }
-      button:disabled { opacity: .55; cursor: wait; }
-      #message { min-height: 20px; margin-top: 10px; color: var(--muted); }
-      #message.error { color: #c43232; }
-      #message.success { color: var(--success); }
+      .note { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
       :focus-visible { outline: 3px solid #8b8bf0; outline-offset: 2px; }
-      @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+      }
     </style>
   </head>
   <body>
-    <div class="eyebrow">LOCAL · PRIVATE · EDITABLE</div>
-    <h1>Figma Local MCP</h1>
-    <p>让 Codex 直接理解并编辑你现在打开的 Figma 文件。</p>
+    <header>
+      <div>
+        <div class="eyebrow">LOCAL · CONTROLLED · EDITABLE</div>
+        <h1>Layntra for Figma</h1>
+        <p data-copy="intro">Layntra 的本地画布连接器。</p>
+      </div>
+      <div class="language" role="group" aria-label="Language / 语言">
+        <button id="lang-zh" type="button" aria-pressed="true">中文</button>
+        <button id="lang-en" type="button" aria-pressed="false">English</button>
+      </div>
+    </header>
 
-    <section id="connection" class="status" aria-live="polite">
+    <section id="connection" class="status" aria-live="polite" aria-atomic="true">
       <div class="dot" aria-hidden="true"></div>
       <div>
-        <strong id="connection-title">正在连接本地桥…</strong>
-        <span id="connection-detail">窗口保持打开即可，不需要 Figma Token。</span>
+        <strong id="connection-title">正在连接…</strong>
+        <span id="connection-detail">请保持此窗口打开。</span>
       </div>
     </section>
 
-    <h2>只要三步</h2>
+    <h2 data-copy="stepsTitle">下一步</h2>
     <ol class="steps">
-      <li>保持这个窗口打开</li>
-      <li>回到 Codex，用日常语言描述你想做什么</li>
-      <li>Codex 会先看当前页面，再创建或修改可编辑图层</li>
+      <li data-copy="stepKeep">保持这个窗口打开。</li>
+      <li data-copy="stepReturn">回到 Codex 并明确唤起 Layntra。</li>
+      <li data-copy="stepControl">先检查目标和计划，确认后再执行。</li>
     </ol>
 
-    <h2>可以直接这样说</h2>
-    <div class="prompt">“看看我选中的内容，帮我把信息层级整理得更清楚。”</div>
-    <div class="prompt">“做一张简洁、可继续编辑的读书会邀请卡。”</div>
-
-    <details>
-      <summary>海报快捷工具（可选示例）</summary>
-      <label for="photo">嘉宾照片</label>
-      <input id="photo" type="file" accept="image/png,image/jpeg,image/webp" />
-      <button id="replace">替换模板照片</button>
-
-      <label for="guest">嘉宾名</label>
-      <input id="guest" />
-      <label for="date">日期</label>
-      <input id="date" />
-      <label for="time">时间</label>
-      <input id="time" />
-      <button id="details">更新已填写文字</button>
-    </details>
-
-    <div id="message" role="status"></div>
+    <h2 data-copy="startTitle">在 Codex 中输入</h2>
+    <code>$layntra status</code>
+    <p class="note" data-copy="controlNote">
+      Layntra 会在修改前显示文件、页面、作用范围和计划。
+    </p>
 
     <script>
-      const $ = (id) => document.getElementById(id);
-      const post = (pluginMessage) => parent.postMessage({ pluginMessage }, "*");
-      const message = $("message");
+      const copy = {
+        "zh-CN": {
+          intro: "Layntra 的本地画布连接器。",
+          connectingTitle: "正在连接…",
+          connectingDetail: "请保持此窗口打开。",
+          connectedTitle: "已连接",
+          connectedDetail: "回到 Codex，输入 $layntra status。",
+          disconnectedTitle: "尚未连接",
+          disconnectedDetail: "请安装或刷新 Layntra Codex 插件，然后保持此窗口打开。",
+          stepsTitle: "下一步",
+          stepKeep: "保持这个窗口打开。",
+          stepReturn: "回到 Codex 并明确唤起 Layntra。",
+          stepControl: "先检查目标和计划，确认后再执行。",
+          startTitle: "在 Codex 中输入",
+          controlNote: "Layntra 会在修改前显示文件、页面、作用范围和计划。"
+        },
+        en: {
+          intro: "The local canvas companion for Layntra.",
+          connectingTitle: "Connecting…",
+          connectingDetail: "Keep this window open.",
+          connectedTitle: "Connected",
+          connectedDetail: "Return to Codex and enter $layntra status.",
+          disconnectedTitle: "Not connected",
+          disconnectedDetail: "Install or refresh the Layntra Codex plugin, then keep this window open.",
+          stepsTitle: "Next steps",
+          stepKeep: "Keep this window open.",
+          stepReturn: "Return to Codex and invoke Layntra explicitly.",
+          stepControl: "Review the target and plan before you apply.",
+          startTitle: "Enter in Codex",
+          controlNote: "Layntra shows the file, page, target, and plan before making changes."
+        }
+      };
+
+      let language = "zh-CN";
+      let state = "connecting";
       let bridge;
       let retryTimer;
 
-      function setMessage(text, kind = "") {
-        message.textContent = text;
-        message.className = kind;
+      function render() {
+        const strings = copy[language];
+        document.documentElement.lang = language;
+        document.querySelectorAll("[data-copy]").forEach((element) => {
+          element.textContent = strings[element.dataset.copy];
+        });
+        document.getElementById("lang-zh").setAttribute("aria-pressed", String(language === "zh-CN"));
+        document.getElementById("lang-en").setAttribute("aria-pressed", String(language === "en"));
+        const title = document.getElementById("connection-title");
+        const detail = document.getElementById("connection-detail");
+        const status = document.getElementById("connection");
+        status.classList.toggle("connected", state === "connected");
+        title.textContent = strings[`${state}Title`];
+        detail.textContent = strings[`${state}Detail`];
       }
 
-      function setConnection(connected) {
-        $("connection").classList.toggle("connected", connected);
-        $("connection-title").textContent = connected ? "已连接，可以开始" : "本地桥尚未连接";
-        $("connection-detail").textContent = connected
-          ? "现在回到 Codex，直接描述你想完成的设计。"
-          : "请先在 Codex 安装并启用 Figma Local MCP 插件。";
+      function setLanguage(nextLanguage) {
+        language = nextLanguage;
+        render();
       }
+
+      document.getElementById("lang-zh").onclick = () => setLanguage("zh-CN");
+      document.getElementById("lang-en").onclick = () => setLanguage("en");
 
       function connectBridge() {
         clearTimeout(retryTimer);
+        state = "connecting";
+        render();
         bridge = new WebSocket("ws://localhost:3846");
         bridge.onopen = () => {
-          setConnection(true);
-          bridge.send(JSON.stringify({ type: "hello", client: "ai-poster-assistant" }));
+          state = "connected";
+          render();
+          bridge.send(JSON.stringify({ type: "hello", client: "layntra-figma" }));
         };
         bridge.onclose = () => {
-          setConnection(false);
+          state = "disconnected";
+          render();
           retryTimer = setTimeout(connectBridge, 2000);
         };
         bridge.onerror = () => bridge.close();
         bridge.onmessage = (event) => {
           const incoming = JSON.parse(event.data);
           if (incoming.type === "command") {
-            post({ type: "mcp-command", requestId: incoming.requestId, command: incoming.command, args: incoming.args });
+            parent.postMessage({ pluginMessage: {
+              type: "mcp-command",
+              requestId: incoming.requestId,
+              command: incoming.command,
+              args: incoming.args
+            } }, "*");
           }
         };
       }
-      connectBridge();
-
-      $("replace").onclick = async () => {
-        const file = $("photo").files[0];
-        if (!file) return setMessage("请先选择一张照片。", "error");
-        $("replace").disabled = true;
-        setMessage("正在替换照片…");
-        const bytes = Array.from(new Uint8Array(await file.arrayBuffer()));
-        post({ type: "replace-photo", bytes });
-      };
-
-      $("details").onclick = () => {
-        $("details").disabled = true;
-        setMessage("正在更新文字…");
-        post({
-          type: "apply-details",
-          guestName: $("guest").value,
-          date: $("date").value,
-          time: $("time").value,
-          dateTime: [$("date").value, $("time").value].filter(Boolean).join(" · ")
-        });
-      };
 
       onmessage = (event) => {
         const incoming = event.data.pluginMessage;
-        if (!incoming) return;
-        if (incoming.type === "mcp-result") {
-          if (bridge?.readyState === WebSocket.OPEN) bridge.send(JSON.stringify(incoming));
-          return;
+        if (incoming && incoming.type === "mcp-result" && bridge?.readyState === WebSocket.OPEN) {
+          bridge.send(JSON.stringify(incoming));
         }
-        $("replace").disabled = false;
-        $("details").disabled = false;
-        setMessage(incoming.message, incoming.type);
       };
+
+      render();
+      connectBridge();
     </script>
   </body>
 </html>
