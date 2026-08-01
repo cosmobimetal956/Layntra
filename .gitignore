@@ -1,4 +1,5 @@
 node_modules/
+.worktrees/
 plugins/ai-poster-assistant/mcp-bridge/node_modules/
 /mcp-bridge/
 .DS_Store
