@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd "${script_dir}/.." && pwd)"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+repo_root="$(cd "${script_dir}/.." && pwd -P)"
 
 language="${LAYNTRA_LANG:-}"
 if [ -z "${language}" ]; then
