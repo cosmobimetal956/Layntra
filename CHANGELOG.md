@@ -5,9 +5,12 @@ and semantic versioning.
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-08-01
+
 ### Added
 
 - Explicit `$layntra` inspect, plan, approve, apply, and verify workflow.
+- Guarded `$layntra undo` recovery for the latest successful apply.
 - Local Figma context snapshots and stale-write protection.
 - English and Simplified Chinese onboarding for product managers.
 - Clean installer, public audit, CI, and open-source governance.
