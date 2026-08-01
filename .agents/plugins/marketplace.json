@@ -1,14 +1,14 @@
 {
-  "name": "figma-local-mcp",
+  "name": "layntra",
   "interface": {
-    "displayName": "Figma Local MCP"
+    "displayName": "Layntra"
   },
   "plugins": [
     {
-      "name": "ai-poster-assistant",
+      "name": "layntra",
       "source": {
         "source": "local",
-        "path": "./plugins/ai-poster-assistant"
+        "path": "."
       },
       "policy": {
         "installation": "AVAILABLE",
