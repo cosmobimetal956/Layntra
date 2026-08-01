@@ -38,3 +38,17 @@ test("README links resolve and beginner flow precedes protocol details", async (
     }
   }
 });
+
+test("bilingual onboarding embeds the Figma manifest import path screenshot", async () => {
+  const asset = "docs/assets/figma-import-manifest-path.png";
+  await access(asset);
+  for (const file of [
+    "README.md",
+    "README.zh-CN.md",
+    "docs/en/getting-started.md",
+    "docs/zh-CN/getting-started.md"
+  ]) {
+    const content = await readFile(file, "utf8");
+    assert.match(content, /figma-import-manifest-path\.png/, `${file} is missing the import-path screenshot`);
+  }
+});

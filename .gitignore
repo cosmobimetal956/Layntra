@@ -6,5 +6,7 @@ packages/mcp-bridge/node_modules/
 
 # Demo photos and source-poster exports are intentionally not published.
 assets/
+!docs/assets/
+!docs/assets/**
 TEMPLATE 02 / VERTICAL 4_5 /
 TEMPLATE 02 / VERTICAL 4_5 / 1080x1350.jpg

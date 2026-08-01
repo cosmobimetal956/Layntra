@@ -19,6 +19,9 @@ Design plugins.
 2. Open a Design file in Figma Desktop.
 3. Choose **Plugins → Development → Import plugin from manifest…** and select
    `apps/figma-plugin/manifest.json`.
+
+![Figma menu path: Plugins, Development, Import plugin from manifest](docs/assets/figma-import-manifest-path.png)
+
 4. Run **Plugins → Development → Layntra for Figma** and keep its window open.
 5. Start a new Codex task and enter:
 

@@ -10,6 +10,9 @@
    Design 插件时，个人 Starter 空间是免费路径。
 4. 选择 **Plugins → Development → Import plugin from manifest…**。
 5. 导入 `apps/figma-plugin/manifest.json`。
+
+![Figma 配置路径：Plugins、Development、Import plugin from manifest](../assets/figma-import-manifest-path.png)
+
 6. 运行 **Plugins → Development → Layntra for Figma**，保持状态窗口打开。
 7. 新建 Codex 任务，让刚安装的插件被加载。
 

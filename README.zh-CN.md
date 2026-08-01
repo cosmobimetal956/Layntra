@@ -16,6 +16,9 @@ Dev/Collab/View seat 不能运行 Design 插件，请切换到个人 Starter 免
 2. 在 Figma Desktop 中打开一个 Design 文件。
 3. 选择 **Plugins → Development → Import plugin from manifest…**，导入
    `apps/figma-plugin/manifest.json`。
+
+![Figma 配置路径：Plugins、Development、Import plugin from manifest](docs/assets/figma-import-manifest-path.png)
+
 4. 运行 **Plugins → Development → Layntra for Figma**，保持窗口打开。
 5. 新建 Codex 任务，输入：
 

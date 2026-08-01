@@ -10,6 +10,9 @@ This guide assumes no plugin-development experience.
    free path when an organization Dev/Collab/View seat blocks Design plugins.
 4. Choose **Plugins → Development → Import plugin from manifest…**.
 5. Select `apps/figma-plugin/manifest.json`.
+
+![Figma menu path: Plugins, Development, Import plugin from manifest](../assets/figma-import-manifest-path.png)
+
 6. Run **Plugins → Development → Layntra for Figma** and keep its status window
    open.
 7. Start a new Codex task so the installed plugin is loaded.
