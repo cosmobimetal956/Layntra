@@ -1,29 +1,25 @@
 ---
-name: ai-poster-assistant
-description: Apply the optional event-poster example tools included with Figma Local MCP. Use only when the user explicitly asks to create or update a poster, speaker portrait, event date, or poster template.
+name: poster-example
+description: Optional editable poster workflow for Layntra. Use only when the user explicitly invokes $layntra and explicitly requests a poster, event card, speaker portrait, or event template.
 ---
 
-# Poster Examples for Figma Local MCP
+# Layntra poster example
 
-This is an optional example workflow built on top of Figma Local MCP. It is not
-the core product and must not trigger for general Figma editing.
+This is an optional example built on the core `$layntra` control policy. It must
+not activate for general product design, Figma editing, or an unrelated request.
 
-## Before using a tool
+Follow the core Layntra workflow without exception:
 
-Ask the user to open the target Figma file in Figma Desktop and run **AI Poster Assistant** from **Plugins → Development**. The plugin window must stay open while commands run.
+1. Check `get_status` and inspect the explicit target.
+2. Present a bounded plan and say that Figma has not changed.
+3. Wait for `$layntra apply` in the same Codex task.
+4. Pass the captured `expectedContext` to generic writes.
+5. Re-inspect and report observed results plus `Command + Z` recovery.
 
-If a tool reports that the Figma plugin is not connected, explain that the local Figma plugin needs to be started and do not retry until the user confirms it is open.
+Available poster tools include `list_templates`, `replace_guest_photo`,
+`set_event_details`, `create_waic_template`, `create_crossborder_template`,
+`place_guest_asset`, and the `redesign_crossborder_*` tools. Use them only when
+the explicit request matches. Confirm local image paths exist before image work.
 
-## Poster tools
-
-- `list_templates`: inspect editable poster templates on the current page.
-- `replace_guest_photo`: replace every layer named `PHOTO / Replace speaker portrait` with a supplied local image.
-- `set_event_details`: update named guest, date, time, or combined date-time layers. Only supply fields the user explicitly wants changed.
-- `create_waic_template`, `create_crossborder_template`, `place_guest_asset`, and the `redesign_crossborder_*` tools: create or transform poster layouts on the active page.
-
-## Safe workflow
-
-1. Confirm the user has the intended Figma file and page open.
-2. Call `get_document` or `get_selection` before an ambiguous change.
-3. For image changes, use an absolute local image path and confirm the file exists first.
-4. Re-inspect the affected nodes and report what changed.
+Never let this example redefine connection, targeting, confirmation, deletion,
+or verification rules from the core Layntra Skill.

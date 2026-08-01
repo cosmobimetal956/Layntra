@@ -1,46 +1,137 @@
 ---
-name: figma-local-mcp
-description: Inspect and edit the user's currently open Figma Desktop file through the local Figma Local MCP bridge. Use for general Figma work such as reading a page or selection, creating editable layouts, and updating nodes. Designed for users who describe outcomes in plain language.
+name: layntra
+description: Controlled Codex-to-Figma workflow for inspecting, planning, creating, and refining editable product designs. Use only when the user explicitly invokes $layntra.
 ---
 
-# Figma Local MCP
+# Layntra
 
-Use the local bridge as the default transport for this workflow. Do not switch
-to Figma's hosted MCP tools unless the user explicitly asks to.
+Layntra is an explicit, controlled Codex workflow. Never auto-activate from an
+ordinary design request. The user starts it with `$layntra` and always knows the
+target, mode, and write boundary.
 
-## Start gently
+Use only the local Layntra MCP server. Do not switch to hosted Figma tools unless
+the user explicitly requests a different transport.
 
-The user does not need to know MCP terminology. When setup is uncertain:
+## Intents
 
-1. Call `get_status`.
-2. If `figmaPlugin` is `not_connected`, give only this instruction:
-   open the intended file in Figma Desktop and run
-   **Plugins → Development → Figma Local MCP**.
-3. Once connected, call `get_selection` when the user refers to selected
-   objects; otherwise call `get_document`.
+Read-only intents never change Figma:
 
-## Design workflow
+- `status`: call `get_status`; show bridge, companion, file, page, selection,
+  target, and mode.
+- `inspect`: read the explicit selection or current page.
+- `review`: inspect and evaluate against the user's criteria.
+- `plan`: inspect, propose bounded changes, and wait for approval.
 
-1. Translate the user's plain-language goal into a small editable structure.
-2. Inspect before changing an existing design.
-3. Use `create_nodes` in batches of at most 100 frames, rectangles, and text
-   layers. Use clear semantic names.
-4. Use returned IDs with `update_nodes` for refinements.
-5. Re-inspect the affected selection or page and report the outcome in plain
-   language.
+End every read-only response with: `No Figma changes made / 尚未修改 Figma`.
 
-Never imply that an operation succeeded until the tool returns successfully.
-Do not expose internal node IDs unless they help diagnose a problem.
+Write intents are controlled:
 
-## Safety
+- `create`: plan new content with target `new-frame`, then wait.
+- `refine`: inspect and plan changes to target `selection`, then wait.
+- `apply`: execute only the latest unexecuted plan in this Codex task.
 
-- Never add a deletion workflow without explicit user confirmation.
-- Preserve existing nodes when a request is ambiguous.
-- Keep images and design content local.
-- Explain connection failures as a next action, not as a technical stack trace.
+`create` and `refine` do not write when first requested. They enter plan mode.
 
-## Example requests
+## Target resolution
 
-- “把我选中的这张卡片排版得更清楚。”
-- “做一张可以继续编辑的读书会邀请卡。”
-- “先看看这个页面，再帮我统一标题和正文层级。”
+Use exactly one target:
+
+- `selection`: only current selected nodes and descendants.
+- `page`: read-only review in version 0.1.0.
+- `new-frame`: a new top-level frame; default for new content or ambiguity.
+
+Never infer permission to change the whole page. Never delete, replace, or hide
+existing work when the target is ambiguous.
+
+## Controlled state machine
+
+### 1. Connect and capture context
+
+Call `get_status`. If the companion is not connected, give only the next action:
+open the intended Design file and run **Plugins → Development → Layntra for
+Figma**. Do not pretend the document is available.
+
+For `selection`, call `get_selection`. For `page` or `new-frame`, call
+`get_document`. Capture:
+
+```json
+{
+  "pageId": "current page ID",
+  "selectionIds": ["sorted current selection IDs"]
+}
+```
+
+This is the plan's `expectedContext`. Do not expose node IDs unless needed for
+diagnosis.
+
+### 2. Present the plan
+
+State:
+
+- connected file and page;
+- target and selected node count;
+- nodes and properties to create or update;
+- copy, colors, and nodes that will be preserved;
+- unsupported or risky parts;
+- approximate node count;
+- confirmation instruction: `$layntra apply`.
+
+Store the plan only in this Codex task. A newer plan replaces the older one.
+Never write while presenting a plan. End with `No Figma changes made / 尚未修改
+Figma`.
+
+### 3. Require explicit approval
+
+Accept `$layntra apply` only when an unexecuted plan exists in the same task.
+If the command is ambiguous, the plan is missing, or the user changed the goal,
+inspect and present a new plan instead.
+
+Pass `expectedContext` to every `create_nodes` or `update_nodes` call. If Figma
+reports that its context changed, stop without retrying and ask the user to run
+`$layntra plan` again.
+
+Use batches of at most 100 editable `FRAME`, `RECTANGLE`, and `TEXT` nodes. Use
+semantic layer names. Do not call deletion or arbitrary-code tools.
+
+### 4. Verify observed results
+
+After a successful write, call `get_document` or `get_selection` again. Report
+only what the tool result proves:
+
+- target changed;
+- nodes created and updated;
+- preserved constraints verified;
+- partial or skipped work;
+- recovery: return to Figma and press `Command + Z`.
+
+Never claim success from a proposed plan or a tool call that returned an error.
+Do not automatically retry a timed-out write.
+
+## Product-manager examples
+
+```text
+$layntra status
+```
+
+```text
+$layntra review selection
+Check information hierarchy and missing loading, empty, and error states.
+Do not modify Figma.
+```
+
+```text
+$layntra plan selection
+Goal: clarify the login card hierarchy.
+Preserve: all copy and brand colors.
+Do not: delete or add illustration layers.
+```
+
+```text
+$layntra create
+Target: new-frame
+Create a 390 × 844 sign-up screen with default, loading, and validation-error states.
+```
+
+```text
+$layntra apply
+```
