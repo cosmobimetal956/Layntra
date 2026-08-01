@@ -864,7 +864,6 @@ async function createGenericNodes(specs) {
     }
     created.push(summarizeNode(node));
   }
-  figma.currentPage.selection = (await Promise.all(created.map(({ id }) => figma.getNodeByIdAsync(id)))).filter(Boolean);
   return { created };
 }
 
@@ -903,16 +902,22 @@ function replyToBridge(requestId, ok, data) {
   figma.ui.postMessage({ type: "mcp-result", requestId, ok, data });
 }
 
+async function runWrite(operation) {
+  const result = await operation();
+  figma.commitUndo();
+  return result;
+}
+
 figma.ui.onmessage = async (message) => {
   try {
     if (message.type === "replace-photo") {
-      const count = await replacePhoto(message.bytes);
+      const count = await runWrite(() => replacePhoto(message.bytes));
       figma.ui.postMessage({ type: "success", message: `已替换 ${count} 个照片框。` });
       return;
     }
 
     if (message.type === "apply-details") {
-      const changed = await applyDetails(message);
+      const changed = await runWrite(() => applyDetails(message));
       figma.ui.postMessage({
         type: "success",
         message: `已更新 ${changed} 个文字图层。`
@@ -924,12 +929,12 @@ figma.ui.onmessage = async (message) => {
       const { requestId, command, args = {} } = message;
       if (command === "replace_guest_photo") {
         const bytes = Uint8Array.from(atob(args.imageBase64), (char) => char.charCodeAt(0));
-        const count = await replacePhoto(bytes);
+        const count = await runWrite(() => replacePhoto(bytes));
         replyToBridge(requestId, true, { replacedPhotoFrames: count });
         return;
       }
       if (command === "set_event_details") {
-        const count = await applyDetails(args);
+        const count = await runWrite(() => applyDetails(args));
         replyToBridge(requestId, true, { updatedTextLayers: count });
         return;
       }
@@ -951,36 +956,42 @@ figma.ui.onmessage = async (message) => {
       }
       if (command === "create_nodes") {
         assertExpectedContext(args.expectedContext);
-        replyToBridge(requestId, true, await createGenericNodes(args.nodes));
+        replyToBridge(requestId, true, await runWrite(() => createGenericNodes(args.nodes)));
         return;
       }
       if (command === "update_nodes") {
         assertExpectedContext(args.expectedContext);
-        replyToBridge(requestId, true, await updateGenericNodes(args.updates));
+        replyToBridge(requestId, true, await runWrite(() => updateGenericNodes(args.updates)));
+        return;
+      }
+      if (command === "undo_last") {
+        assertExpectedContext(args.expectedContext);
+        figma.triggerUndo();
+        replyToBridge(requestId, true, { undone: true });
         return;
       }
       if (command === "create_waic_template") {
-        replyToBridge(requestId, true, await createWaicPoster());
+        replyToBridge(requestId, true, await runWrite(() => createWaicPoster()));
         return;
       }
       if (command === "create_crossborder_template") {
-        replyToBridge(requestId, true, await createCrossBorderPoster(args.imageBase64));
+        replyToBridge(requestId, true, await runWrite(() => createCrossBorderPoster(args.imageBase64)));
         return;
       }
       if (command === "place_guest_asset") {
-        replyToBridge(requestId, true, await placeGuestAsset(args.imageBase64));
+        replyToBridge(requestId, true, await runWrite(() => placeGuestAsset(args.imageBase64)));
         return;
       }
       if (command === "redesign_crossborder_cohosts") {
-        replyToBridge(requestId, true, await redesignCrossBorderCohosts(args.siaBase64, args.vickyBase64));
+        replyToBridge(requestId, true, await runWrite(() => redesignCrossBorderCohosts(args.siaBase64, args.vickyBase64)));
         return;
       }
       if (command === "redesign_crossborder_preserve_copy") {
-        replyToBridge(requestId, true, await redesignCrossBorderPreserveCopy(args.siaBase64, args.vickyBase64));
+        replyToBridge(requestId, true, await runWrite(() => redesignCrossBorderPreserveCopy(args.siaBase64, args.vickyBase64)));
         return;
       }
       if (command === "create_aug1_agent_workshop") {
-        replyToBridge(requestId, true, await createAug1AgentWorkshopPoster());
+        replyToBridge(requestId, true, await runWrite(() => createAug1AgentWorkshopPoster()));
         return;
       }
       throw new Error(`不支持的 MCP 命令：${command}`);

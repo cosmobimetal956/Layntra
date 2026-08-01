@@ -156,7 +156,7 @@ const tools = [
           }
         }
       },
-      required: ["nodes"]
+      required: ["expectedContext", "nodes"]
     }
   },
   {
@@ -180,7 +180,16 @@ const tools = [
           }
         }
       },
-      required: ["updates"]
+      required: ["expectedContext", "updates"]
+    }
+  },
+  {
+    name: "undo_last",
+    description: "Undo the latest committed Figma action when the current page and selection still match the post-apply context.",
+    inputSchema: {
+      type: "object",
+      properties: { expectedContext: expectedContextSchema },
+      required: ["expectedContext"]
     }
   },
   { name: "list_templates", description: "List editable AI event templates on the current Figma page.", inputSchema: { type: "object", properties: {} } },

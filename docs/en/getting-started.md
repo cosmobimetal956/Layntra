@@ -51,8 +51,9 @@ $layntra apply
 ```
 
 Confirm that Figma shows individually editable layers. Layntra must re-read and
-report the observed result. Return to Figma and press `Command + Z` to verify
-recovery.
+report the observed result. Enter `$layntra undo` immediately to verify guarded
+recovery, then confirm that Layntra re-read the reverted document. After closing
+the companion, Figma's `Command + Z` remains a manual fallback.
 
 The companion manifest remains at `apps/figma-plugin/manifest.json`, and its
 runtime menu remains **Plugins → Development → Layntra for Figma**.

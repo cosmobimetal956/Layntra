@@ -50,7 +50,7 @@ Approve only after reviewing the target:
 $layntra apply
 ```
 
-If the result is unexpected, return to Figma and press `Command + Z`. The
+If the result is unexpected, enter `$layntra undo`. The
 companion remains available under **Plugins → Development**, and its public
 path is `apps/figma-plugin/manifest.json`.
 

@@ -19,7 +19,7 @@ test("English and Chinese user journeys expose the same controlled commands", as
         "$layntra apply",
         "apps/figma-plugin/manifest.json",
         "Plugins → Development",
-        "Command + Z"
+        "$layntra undo"
       ]) assert.match(content, new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `${file} is missing ${token}`);
     }
   }

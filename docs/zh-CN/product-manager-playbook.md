@@ -50,4 +50,4 @@ $layntra plan selection
 ## 验证与恢复
 
 对照计划、Layntra 写入后的节点数量和 Figma Layers 面板。如果结果错误或不完整，
-先回到 Figma 按 `Command + Z`，再制定新计划。
+先输入 `$layntra undo`，再制定新计划；如果目标已改变，Layntra 会停止而不是猜测。

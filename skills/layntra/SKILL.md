@@ -29,6 +29,7 @@ Write intents are controlled:
 - `create`: plan new content with target `new-frame`, then wait.
 - `refine`: inspect and plan changes to target `selection`, then wait.
 - `apply`: execute only the latest unexecuted plan in this Codex task.
+- `undo`: undo only the latest successful Layntra apply from this Codex task.
 
 `create` and `refine` do not write when first requested. They enter plan mode.
 
@@ -102,7 +103,14 @@ only what the tool result proves:
 - nodes created and updated;
 - preserved constraints verified;
 - partial or skipped work;
-- recovery: return to Figma and press `Command + Z`.
+- recovery: enter `$layntra undo` immediately; after closing the companion,
+  Figma's `Command + Z` and version history remain manual fallbacks.
+
+Store the observed post-apply page and selection as the recovery context. Accept
+`$layntra undo` only for the latest successful apply in this Codex task and only
+before any newer Layntra plan or apply. Pass that recovery context to
+`undo_last`, then inspect again. If the context changed, stop without undoing;
+never guess which history entry belongs to Layntra.
 
 Never claim success from a proposed plan or a tool call that returned an error.
 Do not automatically retry a timed-out write.
@@ -134,4 +142,8 @@ Create a 390 × 844 sign-up screen with default, loading, and validation-error s
 
 ```text
 $layntra apply
+```
+
+```text
+$layntra undo
 ```

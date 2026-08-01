@@ -45,8 +45,8 @@ Improve hierarchy. Preserve all copy and brand colors.
 $layntra apply
 ```
 
-Layntra re-reads the result after writing. To recover immediately, return to
-Figma and press `Command + Z`.
+Layntra re-reads the result after writing. To recover immediately, enter
+`$layntra undo`; it refuses if the Figma target changed after the apply.
 
 ## Why the explicit command?
 

@@ -42,7 +42,8 @@ $layntra plan selection
 $layntra apply
 ```
 
-写入后 Layntra 会重新读取结果。需要立即撤销时，回到 Figma 按 `Command + Z`。
+写入后 Layntra 会重新读取结果。需要立即撤销时输入 `$layntra undo`；如果执行后
+Figma 目标已经改变，Layntra 会拒绝猜测要撤销哪一步。
 
 ## 为什么必须明确唤起？
 

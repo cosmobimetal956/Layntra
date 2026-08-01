@@ -48,8 +48,9 @@ $layntra plan
 $layntra apply
 ```
 
-确认 Figma 出现可以独立编辑的图层。Layntra 必须重新读取并汇报实际结果。回到
-Figma 按 `Command + Z`，确认可以撤销。
+确认 Figma 出现可以独立编辑的图层。Layntra 必须重新读取并汇报实际结果。立即
+输入 `$layntra undo`，确认受保护的撤销生效，并让 Layntra 再次读取撤销后的文档。
+关闭伴侣后，也可以使用 Figma 的 `Command + Z` 作为手动后备方案。
 
 伴侣 manifest 始终位于 `apps/figma-plugin/manifest.json`，运行入口始终是
 **Plugins → Development → Layntra for Figma**。

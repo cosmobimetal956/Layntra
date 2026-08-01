@@ -52,5 +52,5 @@ request a fresh plan.
 ## Verify and recover
 
 Compare the plan with Layntra's post-write node counts and the visible Layers
-panel. If the result is wrong or partial, return to Figma and press
-`Command + Z` before making another plan.
+panel. If the result is wrong or partial, enter `$layntra undo` before making
+another plan. If the target changed, Layntra stops instead of guessing.

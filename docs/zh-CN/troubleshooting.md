@@ -39,7 +39,7 @@ $layntra status
 ## 超时或只完成一部分
 
 不要自动重试写入。先重新读取页面，对照实际节点和计划。如有意外变化，按
-`Command + Z`。连接恢复后重新制定计划，确认无误再输入 `$layntra apply`。
+`$layntra undo`。连接恢复后重新制定计划，确认无误再输入 `$layntra apply`。
 
 如果不确定是否导入成功，重新选择 **Plugins → Development → Import plugin from
 manifest…** 并导入 `apps/figma-plugin/manifest.json`。

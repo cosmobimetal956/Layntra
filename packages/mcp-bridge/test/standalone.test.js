@@ -76,12 +76,16 @@ test("bridge advertises bounded generic design tools", async (t) => {
   });
 
   const names = response.result.tools.map((tool) => tool.name);
-  assert.deepEqual(["get_status", "get_document", "get_selection", "create_nodes", "update_nodes"].filter((name) => !names.includes(name)), []);
+  assert.deepEqual(["get_status", "get_document", "get_selection", "create_nodes", "update_nodes", "undo_last"].filter((name) => !names.includes(name)), []);
   const createNodes = response.result.tools.find((tool) => tool.name === "create_nodes");
   assert.equal(createNodes.inputSchema.properties.nodes.maxItems, 100);
   assert.ok(createNodes.inputSchema.properties.expectedContext);
+  assert.ok(createNodes.inputSchema.required.includes("expectedContext"));
   const updateNodes = response.result.tools.find((tool) => tool.name === "update_nodes");
   assert.ok(updateNodes.inputSchema.properties.expectedContext);
+  assert.ok(updateNodes.inputSchema.required.includes("expectedContext"));
+  const undoLast = response.result.tools.find((tool) => tool.name === "undo_last");
+  assert.ok(undoLast.inputSchema.properties.expectedContext);
 });
 
 test("status explains how to connect when Figma is not open", async (t) => {

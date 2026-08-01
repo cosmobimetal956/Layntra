@@ -44,7 +44,7 @@ deletion or arbitrary code execution in `v0.1.0`.
 ## Timeout or partial result
 
 Do not retry a write automatically. Inspect the page and compare observed nodes
-with the plan. If anything unexpected changed, press `Command + Z`. Create a new
+with the plan. If anything unexpected changed, enter `$layntra undo`. Create a new
 plan and approve with `$layntra apply` only after status is healthy.
 
 If import is uncertain, repeat **Plugins → Development → Import plugin from
