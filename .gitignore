@@ -3,6 +3,7 @@ node_modules/
 packages/mcp-bridge/node_modules/
 /mcp-bridge/
 /dist/
+/artifacts/
 .DS_Store
 
 # Demo photos and source-poster exports are intentionally not published.

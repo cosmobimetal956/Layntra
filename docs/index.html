@@ -7,14 +7,14 @@
   <meta name="description" content="Layntra is an open-source Codex plugin and local Figma companion for inspect, plan, apply, and undo workflows with editable layers.">
   <link rel="canonical" href="https://lessthanno.github.io/Layntra/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Layntra — Codex to Figma, with a visible write boundary">
+  <meta property="og:title" content="Layntra — A visible write path from Codex to Figma">
   <meta property="og:description" content="Inspect, plan, apply, and undo editable Figma changes from Codex. Open source, local bridge, no Figma API token.">
   <meta property="og:url" content="https://lessthanno.github.io/Layntra/">
   <meta property="og:site_name" content="Layntra">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Layntra — Codex to Figma, with control">
   <meta name="twitter:description" content="An open-source Codex plugin and local Figma companion for controlled, editable design changes.">
-  <meta name="theme-color" content="#0b0c0a">
+  <meta name="theme-color" content="#f7f6f1">
   <link rel="stylesheet" href="assets/site.css">
   <script type="application/ld+json">
   {
@@ -66,104 +66,98 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <nav class="nav shell" aria-label="Primary navigation">
-      <a class="brand" href="./" aria-label="Layntra home"><span class="brand-mark" aria-hidden="true"></span>Layntra</a>
+      <a class="brand" href="./" aria-label="Layntra home">Layntra</a>
       <div class="nav-links">
-        <a href="how-it-works.html">How it works</a>
-        <a href="faq.html">FAQ</a>
+        <a href="how-it-works.html">Docs</a>
         <a href="https://github.com/lessthanno/Layntra">GitHub</a>
+        <a href="faq.html">FAQ</a>
         <a class="button" href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Download v0.1.0</a>
       </div>
     </nav>
   </header>
 
   <main id="main">
-    <section class="hero">
-      <div class="hero-grid shell">
-        <div>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-layout shell">
+        <div class="hero-copy-block">
           <p class="eyebrow">Open source · Codex plugin + Figma companion</p>
-          <h1>Codex to Figma. With a visible write boundary.</h1>
-          <p class="hero-copy">Layntra helps product managers and nontechnical builders <strong>inspect, plan, apply, and undo</strong> editable Figma changes from Codex. The bridge stays on your machine. No Figma API token. No hosted Layntra service.</p>
+          <h1 id="hero-title">A visible<br>write path<br>from Codex<br>to Figma<span class="signal-dot">.</span></h1>
+          <p class="hero-copy">For product managers and nontechnical builders. <strong>Inspect, plan, apply, and undo</strong> editable Figma changes from Codex. The bridge stays on your machine. No Figma API token. No hosted Layntra service.</p>
           <div class="actions">
-            <a class="button" href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Download the Figma companion</a>
+            <a class="button" href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Download v0.1.0</a>
             <a class="button-secondary" href="https://github.com/lessthanno/Layntra#quick-start">Install the Codex plugin</a>
           </div>
           <p class="microcopy">Free under the MIT License · macOS · Node.js 20+ · Codex Desktop or CLI · Figma Desktop</p>
         </div>
-
-        <div class="terminal" aria-label="Example Layntra command flow">
-          <div class="terminal-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>&nbsp; Codex</div>
-          <div class="terminal-body">
-            <div class="prompt">$layntra status</div>
-            <div class="terminal-result"><span class="terminal-ok">● Connected</span><br>File: Mobile onboarding<br>Page: Concepts<br>Selection: Frame 12<br>Mode: read-only</div>
-            <div class="prompt">$layntra plan selection<br>Improve the hierarchy. Keep all copy.</div>
-            <div class="terminal-result">Plan ready. No Figma changes made.<br>Target: Frame 12 · 14 editable nodes</div>
-            <div class="prompt">$layntra apply</div>
-            <div class="terminal-result"><span class="terminal-ok">✓ Applied and re-read</span><br>Undo is available for this target.</div>
-          </div>
-        </div>
+        <figure class="hero-art">
+          <img src="assets/hero-workflow.webp" width="1586" height="992" fetchpriority="high" decoding="async" alt="Layntra showing a connected Codex plan and explicit apply result">
+        </figure>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section write-path" aria-labelledby="write-path-title">
       <div class="shell">
-        <div class="section-intro">
-          <p class="eyebrow">Control before automation</p>
-          <h2>Built for decisions, not magic tricks.</h2>
-          <p>Ordinary chat is vague. Layntra uses an explicit command, target, mode, and write boundary so you can see what Codex is about to do.</p>
-        </div>
-        <div class="grid-4">
-          <article class="card"><div class="card-number">01 / INSPECT</div><h3>Read first</h3><p>Check the active file, page, selection, and editable node structure without changing Figma.</p></article>
-          <article class="card"><div class="card-number">02 / PLAN</div><h3>Separate judgment</h3><p>Review the intended changes before any write. A plan is not hidden inside a chat response.</p></article>
-          <article class="card"><div class="card-number">03 / APPLY</div><h3>Recheck the target</h3><p>Layntra refuses the write if the page or selection changed after planning.</p></article>
-          <article class="card"><div class="card-number">04 / UNDO</div><h3>Recover deliberately</h3><p>Undo is guarded against the same target, then the result is read back for verification.</p></article>
+        <p class="section-label">The write path</p>
+        <h2 class="sr-only" id="write-path-title">Inspect, plan, apply, and undo</h2>
+        <div class="path-grid">
+          <article class="path-step"><p class="path-number">01</p><h3>Inspect</h3><p>Check the active file, page, selection, and editable node structure without changing Figma.</p></article>
+          <article class="path-step"><p class="path-number">02</p><h3>Plan</h3><p>Review the intended changes before any write. A plan is not hidden inside a chat response.</p></article>
+          <article class="path-step"><p class="path-number">03</p><h3>Apply</h3><p>Layntra rechecks the target and refuses the write if the page or selection changed.</p></article>
+          <article class="path-step"><p class="path-number">04</p><h3>Undo</h3><p>Undo is guarded against the same target, then the result is read back for verification.</p></article>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="shell">
-        <div class="section-intro">
-          <p class="eyebrow">One local path</p>
-          <h2>From intent to editable layers.</h2>
+    <section class="section local-section" aria-labelledby="local-title">
+      <div class="local-grid shell">
+        <div>
+          <p class="section-label">Local by design</p>
+          <h2 id="local-title">AI should not make the write boundary disappear<span class="signal-dot">.</span></h2>
         </div>
-        <div class="flow" aria-label="Layntra workflow">
-          <div class="flow-step"><span>01</span><strong>You ask</strong><span>Invoke <code>$layntra</code> in Codex.</span></div>
-          <div class="flow-step"><span>02</span><strong>Codex plans</strong><span>The skill makes the mode and target explicit.</span></div>
-          <div class="flow-step"><span>03</span><strong>Local bridge</strong><span>Commands travel over loopback on your Mac.</span></div>
-          <div class="flow-step"><span>04</span><strong>Figma writes</strong><span>The companion creates or updates supported nodes.</span></div>
-          <div class="flow-step"><span>05</span><strong>Layntra checks</strong><span>The result is read back and can be undone.</span></div>
-        </div>
-        <div class="actions">
-          <a class="button-secondary" href="how-it-works.html">See the architecture and safety model</a>
+        <div class="local-facts">
+          <ul>
+            <li>Editable layers, not flattened exports.</li>
+            <li>A local bridge between Codex and Figma.</li>
+            <li>Built-in stale-selection protection.</li>
+            <li>No Figma API token. No cloud account.</li>
+            <li>No hosted Layntra service.</li>
+          </ul>
+          <p>Figma access can vary by plan, workspace, and seat. Layntra works where Figma Design plugins are permitted; it <strong>does not bypass Figma permissions or plan restrictions</strong>.</p>
+          <a class="text-link" href="figma-mcp-alternative.html">Read the hosted Figma MCP comparison</a>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section architecture-section">
       <div class="statement shell">
         <div>
-          <p class="eyebrow">Why Layntra exists</p>
-          <h2>AI should not make the write boundary disappear.</h2>
+          <p class="section-label">One local path</p>
+          <h2>From intent to editable layers.</h2>
         </div>
         <div class="statement-copy">
-          <p>Figma access can vary by plan, workspace, and seat. Some organization seat types cannot run Design plugins. Layntra provides a free, open-source local workflow where plugins are permitted; it <strong>does not bypass Figma permissions or plan restrictions</strong>.</p>
-          <p>There is no Layntra cloud account, telemetry service, or Figma API token. Codex still follows your own Codex configuration and data controls—the local bridge does not make the model offline.</p>
-          <p><a href="figma-mcp-alternative.html">Read the detailed comparison with hosted Figma MCP workflows →</a></p>
+          <ol class="system-path">
+            <li><span>01</span><strong>You ask</strong><small>Invoke <code>$layntra</code> in Codex.</small></li>
+            <li><span>02</span><strong>Codex plans</strong><small>The skill makes mode and target explicit.</small></li>
+            <li><span>03</span><strong>Local bridge</strong><small>Commands travel over loopback on your Mac.</small></li>
+            <li><span>04</span><strong>Figma writes</strong><small>The companion updates supported nodes.</small></li>
+            <li><span>05</span><strong>Layntra checks</strong><small>The result is read back and can be undone.</small></li>
+          </ol>
+          <a class="text-link" href="how-it-works.html">See the architecture and safety model</a>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section install-section" aria-labelledby="install-title">
       <div class="shell">
-        <div class="section-intro">
-          <p class="eyebrow">The first five minutes</p>
-          <h2>No protocol knowledge required.</h2>
+        <p class="section-label">Install in three steps</p>
+        <div class="install-heading">
+          <h2 id="install-title">No protocol knowledge required.</h2>
           <p>You install one Codex plugin and import one Figma companion. The beginner guide shows every menu and the exact file to choose.</p>
         </div>
-        <div class="grid-3">
-          <article class="card"><div class="card-number">STEP 1</div><h3>Install in Codex</h3><p>Clone the repository and run <code>./scripts/install.sh</code>.</p></article>
-          <article class="card"><div class="card-number">STEP 2</div><h3>Import in Figma</h3><p>Download the ZIP, unzip it, and import the included <code>manifest.json</code>.</p></article>
-          <article class="card"><div class="card-number">STEP 3</div><h3>Check the connection</h3><p>Keep the companion open and enter <code>$layntra status</code> in a new Codex task.</p></article>
+        <div class="install-steps">
+          <article class="install-step"><p class="install-number">01</p><h3>Install in Codex</h3><p>Clone the repository and run the included installer.</p><pre><code>./scripts/install.sh</code></pre></article>
+          <article class="install-step"><p class="install-number">02</p><h3>Import the Figma companion</h3><p>Download the ZIP, unzip it, and import the included <code>manifest.json</code>.</p><p class="file-chip"><code>manifest.json</code></p></article>
+          <article class="install-step"><p class="install-number">03</p><h3>Check the connection</h3><p>Keep the companion open and enter this in a new Codex task.</p><pre><code>$layntra status</code></pre></article>
         </div>
         <div class="actions">
           <a class="button" href="https://github.com/lessthanno/Layntra#quick-start">Open the illustrated install guide</a>
@@ -172,15 +166,18 @@
       </div>
     </section>
 
-    <section class="section">
-      <div class="shell callout">
-        <p class="eyebrow">Version 0.1.0</p>
-        <h2>Start with a real Figma file.</h2>
-        <p class="hero-copy">Layntra is early and intentionally bounded: supported editable nodes, batches of at most 100, no deletion, and no arbitrary code execution.</p>
-        <div class="actions">
-          <a class="button" href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Download v0.1.0</a>
-          <a class="button-secondary" href="https://github.com/lessthanno/Layntra">View source on GitHub</a>
+    <section class="final-cta" aria-labelledby="final-cta-title">
+      <div class="final-cta-grid shell">
+        <div>
+          <p class="section-label">Version 0.1.0</p>
+          <h2 id="final-cta-title">Ready to build with a visible write path<span class="signal-yellow">?</span></h2>
+          <p>Run Layntra locally with Codex and your Figma desktop. No tokens. No cloud. Just a clear path you can trust.</p>
+          <div class="actions">
+            <a class="button button-light" href="https://github.com/lessthanno/Layntra/releases/tag/v0.1.0">Download v0.1.0</a>
+            <a class="button-secondary button-on-blue" href="https://github.com/lessthanno/Layntra#quick-start">Install the Codex plugin</a>
+          </div>
         </div>
+        <img src="assets/hero-workflow.webp" width="1586" height="992" loading="lazy" decoding="async" alt="" aria-hidden="true">
       </div>
     </section>
   </main>
