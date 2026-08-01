@@ -3,7 +3,7 @@ import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 
 const HOST = "127.0.0.1";
-const PORT = Number(process.env.AI_POSTER_PORT || 3846);
+const PORT = Number(process.env.LAYNTRA_PORT || process.env.AI_POSTER_PORT || 3846);
 const clients = new Set();
 const pending = new Map();
 
@@ -56,7 +56,7 @@ function parseFrames(state, chunk, onMessage) {
 
 function activePlugin() {
   const client = [...clients].find((socket) => socket.isFigmaPlugin && !socket.destroyed);
-  if (!client) throw new Error("Figma 插件未连接。请在 Figma Desktop 打开 AI Poster Assistant，并保持插件窗口打开。");
+  if (!client) throw new Error("Figma companion is not connected. Open the target file and run Plugins → Development → Layntra for Figma.");
   return client;
 }
 
@@ -76,7 +76,7 @@ function callPlugin(command, args = {}) {
 function handleBridgeMessage(socket, raw) {
   try {
     const message = JSON.parse(raw);
-    if (message.type === "hello" && message.client === "ai-poster-assistant") {
+    if (message.type === "hello" && ["layntra-figma", "ai-poster-assistant"].includes(message.client)) {
       socket.isFigmaPlugin = true;
       return;
     }
@@ -113,7 +113,16 @@ httpServer.on("upgrade", (request, socket) => {
   socket.on("close", () => clients.delete(socket));
   socket.on("error", () => clients.delete(socket));
 });
-httpServer.listen(PORT, HOST, () => console.error(`AI Poster MCP Bridge ready. WebSocket: ws://${HOST}:${httpServer.address().port}`));
+httpServer.listen(PORT, HOST, () => console.error(`Layntra bridge ready. WebSocket: ws://${HOST}:${httpServer.address().port}`));
+
+const expectedContextSchema = {
+  type: "object",
+  properties: {
+    pageId: { type: "string" },
+    selectionIds: { type: "array", items: { type: "string" }, maxItems: 100 }
+  },
+  required: ["pageId", "selectionIds"]
+};
 
 const tools = [
   {
@@ -129,6 +138,7 @@ const tools = [
     inputSchema: {
       type: "object",
       properties: {
+        expectedContext: expectedContextSchema,
         nodes: {
           type: "array", minItems: 1, maxItems: 100,
           items: {
@@ -155,6 +165,7 @@ const tools = [
     inputSchema: {
       type: "object",
       properties: {
+        expectedContext: expectedContextSchema,
         updates: {
           type: "array", minItems: 1, maxItems: 100,
           items: {
@@ -186,12 +197,15 @@ async function toolCall(name, args = {}) {
   if (!tools.some((tool) => tool.name === name)) throw new Error(`Unknown tool: ${name}`);
   if (name === "get_status") {
     const pluginConnected = [...clients].some((socket) => socket.isFigmaPlugin && !socket.destroyed);
+    if (!pluginConnected) return {
+      bridge: "ready",
+      figmaPlugin: "not_connected",
+      nextStep: "Open Figma Desktop, open a Design file, then run Plugins → Development → Layntra for Figma."
+    };
     return {
       bridge: "ready",
-      figmaPlugin: pluginConnected ? "connected" : "not_connected",
-      nextStep: pluginConnected
-        ? "Ready. Inspect the current page or selection."
-        : "Open Figma Desktop, open a file, then run Plugins → Development → Figma Local MCP."
+      figmaPlugin: "connected",
+      ...await callPlugin("get_context", {})
     };
   }
   if (name === "create_nodes" && (!Array.isArray(args.nodes) || args.nodes.length < 1 || args.nodes.length > 100)) {
@@ -228,7 +242,7 @@ process.stdin.on("data", async (chunk) => {
     try {
       request = JSON.parse(line);
       if (request.method === "initialize") {
-        reply(request.id, { protocolVersion: "2025-06-18", capabilities: { tools: {} }, serverInfo: { name: "figma-local-mcp", version: "0.2.0" } });
+        reply(request.id, { protocolVersion: "2025-06-18", capabilities: { tools: {} }, serverInfo: { name: "layntra", version: "0.1.0" } });
       } else if (request.method === "tools/list") {
         reply(request.id, { tools });
       } else if (request.method === "tools/call") {

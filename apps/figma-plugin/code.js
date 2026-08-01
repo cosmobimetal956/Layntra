@@ -808,6 +808,32 @@ async function parentFor(parentId) {
   return parent;
 }
 
+function getContextSnapshot() {
+  const selection = figma.currentPage.selection.map(({ id, name, type }) => ({ id, name, type }));
+  return {
+    fileName: figma.root.name,
+    page: { id: figma.currentPage.id, name: figma.currentPage.name },
+    selection,
+    fingerprint: `${figma.currentPage.id}|${selection.map(({ id }) => id).sort().join(",")}`
+  };
+}
+
+function assertExpectedContext(expectedContext) {
+  if (!expectedContext) return;
+  if (typeof expectedContext.pageId !== "string" || !Array.isArray(expectedContext.selectionIds)) {
+    throw new Error("Invalid expected Figma context. Inspect again before applying.");
+  }
+  const current = getContextSnapshot();
+  const expectedIds = [...expectedContext.selectionIds].sort();
+  const actualIds = current.selection.map(({ id }) => id).sort();
+  if (
+    expectedContext.pageId !== current.page.id ||
+    JSON.stringify(expectedIds) !== JSON.stringify(actualIds)
+  ) {
+    throw new Error("Figma context changed after planning. Inspect again before applying.");
+  }
+}
+
 async function createGenericNodes(specs) {
   if (!Array.isArray(specs) || specs.length === 0) throw new Error("nodes 必须是非空数组。");
   if (specs.length > GENERIC_NODE_LIMIT) throw new Error(`单次最多创建 ${GENERIC_NODE_LIMIT} 个节点。`);
@@ -915,15 +941,21 @@ figma.ui.onmessage = async (message) => {
         replyToBridge(requestId, true, getDocumentSummary());
         return;
       }
+      if (command === "get_context") {
+        replyToBridge(requestId, true, getContextSnapshot());
+        return;
+      }
       if (command === "get_selection") {
         replyToBridge(requestId, true, getSelectionSummary());
         return;
       }
       if (command === "create_nodes") {
+        assertExpectedContext(args.expectedContext);
         replyToBridge(requestId, true, await createGenericNodes(args.nodes));
         return;
       }
       if (command === "update_nodes") {
+        assertExpectedContext(args.expectedContext);
         replyToBridge(requestId, true, await updateGenericNodes(args.updates));
         return;
       }

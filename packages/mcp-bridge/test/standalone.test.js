@@ -8,12 +8,12 @@ import test from "node:test";
 const bridgeDir = path.resolve(import.meta.dirname, "..");
 
 test("bridge starts and answers MCP initialize without installed packages", async (t) => {
-  const isolatedDir = await mkdtemp(path.join(tmpdir(), "ai-poster-bridge-"));
+  const isolatedDir = await mkdtemp(path.join(tmpdir(), "layntra-bridge-"));
   const serverPath = path.join(isolatedDir, "server.mjs");
   await cp(path.join(bridgeDir, "server.js"), serverPath);
 
   const child = spawn(process.execPath, [serverPath], {
-    env: { ...process.env, AI_POSTER_PORT: "0" },
+    env: { ...process.env, LAYNTRA_PORT: "0" },
     stdio: ["pipe", "pipe", "pipe"]
   });
   t.after(async () => {
@@ -49,13 +49,14 @@ test("bridge starts and answers MCP initialize without installed packages", asyn
   });
 
   assert.equal(response.id, 1);
-  assert.equal(response.result.serverInfo.name, "figma-local-mcp");
+  assert.equal(response.result.serverInfo.name, "layntra");
+  assert.equal(response.result.serverInfo.version, "0.1.0");
   assert.ok(response.result.capabilities.tools);
 });
 
 test("bridge advertises bounded generic design tools", async (t) => {
   const child = spawn(process.execPath, [path.join(bridgeDir, "server.js")], {
-    env: { ...process.env, AI_POSTER_PORT: "0" },
+    env: { ...process.env, LAYNTRA_PORT: "0" },
     stdio: ["pipe", "pipe", "pipe"]
   });
   t.after(() => child.kill());
@@ -78,11 +79,14 @@ test("bridge advertises bounded generic design tools", async (t) => {
   assert.deepEqual(["get_status", "get_document", "get_selection", "create_nodes", "update_nodes"].filter((name) => !names.includes(name)), []);
   const createNodes = response.result.tools.find((tool) => tool.name === "create_nodes");
   assert.equal(createNodes.inputSchema.properties.nodes.maxItems, 100);
+  assert.ok(createNodes.inputSchema.properties.expectedContext);
+  const updateNodes = response.result.tools.find((tool) => tool.name === "update_nodes");
+  assert.ok(updateNodes.inputSchema.properties.expectedContext);
 });
 
 test("status explains how to connect when Figma is not open", async (t) => {
   const child = spawn(process.execPath, [path.join(bridgeDir, "server.js")], {
-    env: { ...process.env, AI_POSTER_PORT: "0" },
+    env: { ...process.env, LAYNTRA_PORT: "0" },
     stdio: ["pipe", "pipe", "pipe"]
   });
   t.after(() => child.kill());
@@ -109,5 +113,5 @@ test("status explains how to connect when Figma is not open", async (t) => {
   const status = JSON.parse(response.result.content[0].text);
   assert.equal(status.bridge, "ready");
   assert.equal(status.figmaPlugin, "not_connected");
-  assert.match(status.nextStep, /Figma Local MCP/);
+  assert.match(status.nextStep, /Layntra for Figma/);
 });
