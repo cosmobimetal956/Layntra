@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "layntra": {
+      "title": "Layntra",
+      "description": "Local bridge for controlled Codex edits in the open Figma Desktop file.",
+      "cwd": "./packages/mcp-bridge",
+      "command": "node",
+      "args": ["server.js"]
+    }
+  }
+}
