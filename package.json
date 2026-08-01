@@ -1,0 +1,15 @@
+{
+  "name": "layntra",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "check": "node --check apps/figma-plugin/code.js && node --check packages/mcp-bridge/server.js",
+    "test": "node --test packages/mcp-bridge/test/*.test.js test/*.test.js",
+    "audit:public": "bash scripts/audit-public.sh",
+    "verify": "npm run check && npm test && npm run audit:public"
+  }
+}

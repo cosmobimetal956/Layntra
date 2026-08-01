@@ -1,6 +1,6 @@
 # ADR 0002: Separate infrastructure from example Skills
 
-- Status: Accepted
+- Status: Accepted; naming and activation superseded by ADR 0003
 - Date: 2026-07-30
 - Owner: Maintainers
 
