@@ -1,89 +1,88 @@
-# Figma Local MCP
+# Layntra
 
-Open-source local infrastructure that lets anyone describe a design in everyday
-language and have Codex build it as editable Figma layers—without a Figma API
-token or a hosted MCP subscription.
+**Turn product ideas into editable Figma designs—with an explicit plan before
+anything changes.**
 
-The integration is local-only: the Figma plugin connects to `ws://127.0.0.1:3846`. It does not use a Figma API token or a cloud MCP service.
+Layntra is a Codex plugin for product managers and other non-developers. Invoke
+`$layntra`, choose the target, review the plan, and apply only when you are
+ready. Every result remains editable in Figma.
 
-> Local-only operating rule: when this plugin is the selected Figma transport,
-> create, inspect, and verify designs through this bridge. Do not fall back to
-> Figma's hosted MCP tools (including hosted screenshot calls), because those
-> are separately metered and can display a plan-limit dialog even though the
-> local plugin completed successfully.
+[简体中文](README.zh-CN.md)
 
-## What works today
+## Quick start
 
-- Inspect the current page or selection.
-- Create editable frames, rectangles, and text layers in batches.
-- Update names, position, size, fill, visibility, and text by node ID.
-- Load optional Skills for posters and other repeatable workflows.
-- Run entirely on the local machine through a loopback-only bridge.
+Requirements: macOS, Node.js 20+, Codex Desktop or CLI, and Figma Desktop. Use a
+personal Starter workspace if an organization Dev/Collab/View seat cannot run
+Design plugins.
 
-The poster workflow is now an optional example Skill. The core plugin is
-general-purpose and does not assume that the user is making a poster.
-
-## Who this is for
-
-You do not need to understand MCP, APIs, JSON, or Figma's developer platform.
-Open a file, start the Figma plugin, then describe the result you want in
-Codex. See the [Chinese beginner guide](docs/GETTING_STARTED.zh-CN.md).
-
-Figma Design plugins work on a free personal Starter plan or with a Full seat.
-An organization-only Dev, Collab, or View seat cannot run plugins in Figma
-Design; switch to a personal Starter workspace for the free path.
-
-## Install the Figma plugin
-
-1. Open the target design file in **Figma Desktop**.
-2. Choose **Plugins → Development → Import plugin from manifest…**.
-3. Select this repository's `manifest.json`.
-4. Run **Plugins → Development → Figma Local MCP** and leave its status window open.
-
-## Install the Codex plugin
-
-From this repository, run:
-
-```bash
-./scripts/install-codex-plugin.sh
-```
-
-The installer checks Codex and Node.js, registers this repository as the
-`figma-local-mcp` marketplace, and installs the Codex plugin. Start a new Codex
-task afterward so the new Skill and tools are loaded.
-
-> Inspect my current Figma page, then create an editable 1200×630 launch card
-> with a dark background, headline, subtitle, and CTA.
-
-If anything is unclear, ask Codex:
-
-> 检查 Figma Local MCP 是否准备好了，并告诉我下一步。
-
-## Architecture
+1. Clone this repository and run `./scripts/install.sh`.
+2. Open a Design file in Figma Desktop.
+3. Choose **Plugins → Development → Import plugin from manifest…** and select
+   `apps/figma-plugin/manifest.json`.
+4. Run **Plugins → Development → Layntra for Figma** and keep its window open.
+5. Start a new Codex task and enter:
 
 ```text
-Codex ──stdio/MCP──> local Node bridge ──WebSocket──> Figma plugin UI
-                                                        │
-                                                        └── Figma Plugin API
+$layntra status
 ```
 
-## Development checks
+Then inspect without writing:
+
+```text
+$layntra review selection
+Check hierarchy and missing loading, empty, and error states.
+Do not modify Figma.
+```
+
+Plan and apply separately:
+
+```text
+$layntra plan selection
+Improve hierarchy. Preserve all copy and brand colors.
+```
+
+```text
+$layntra apply
+```
+
+Layntra re-reads the result after writing. To recover immediately, return to
+Figma and press `Command + Z`.
+
+## Why the explicit command?
+
+Ordinary conversation is not a reliable control surface. `$layntra` makes the
+active plugin, file, page, selection, mode, and write boundary visible. Read-only
+intents never modify Figma; write intents wait for your approval.
+
+## Guides
+
+- [Getting started](docs/en/getting-started.md)
+- [Product manager playbook](docs/en/product-manager-playbook.md)
+- [Troubleshooting](docs/en/troubleshooting.md)
+- [Migration from the development version](docs/en/migration.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security](SECURITY.md)
+
+## Architecture and privacy
+
+```text
+Codex Skill → local stdio/MCP bridge → loopback WebSocket → Figma companion
+```
+
+The bridge binds to `127.0.0.1:3846`. Layntra needs no Figma API token, hosted
+Layntra account, or telemetry. Codex model data handling remains governed by
+your Codex configuration; “local bridge” does not mean the AI model is offline.
+
+Writes are limited to supported editable nodes and batches of at most 100.
+Deletion and arbitrary code execution are not exposed in `v0.1.0`.
+
+## Development
 
 ```bash
-node --check code.js
-npm --prefix plugins/ai-poster-assistant/mcp-bridge run check
-npm --prefix plugins/ai-poster-assistant/mcp-bridge test
+npm run verify
 ```
 
-## Security and privacy
-
-The bridge binds to `127.0.0.1` only. Generic operations are constrained to 100
-nodes per request and four inspection levels. Arbitrary code execution and
-remote deletion are intentionally out of scope. See [SECURITY.md](SECURITY.md).
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) and the [roadmap](docs/roadmap.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture and test expectations.
 
 ## License
 

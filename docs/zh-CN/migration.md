@@ -37,6 +37,22 @@ Import plugin from manifest…**，导入 `apps/figma-plugin/manifest.json`。�
 $layntra status
 ```
 
+使用一个可丢弃的选区验证受控流程：
+
+```text
+$layntra plan selection
+不要修改文案或删除图层。
+```
+
+检查目标正确后再确认：
+
+```text
+$layntra apply
+```
+
+如果结果不符合预期，回到 Figma 按 `Command + Z`。伴侣插件仍从
+**Plugins → Development** 运行，公开路径是 `apps/figma-plugin/manifest.json`。
+
 ## 回滚
 
 公开发布 `v0.1.0` 前，上一条通过验证的本地 Git 提交是回滚来源。切回旧提交，

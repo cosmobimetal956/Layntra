@@ -37,6 +37,23 @@ Start a new Codex task and enter:
 $layntra status
 ```
 
+Verify the controlled workflow with a disposable selection:
+
+```text
+$layntra plan selection
+Do not change copy or delete nodes.
+```
+
+Approve only after reviewing the target:
+
+```text
+$layntra apply
+```
+
+If the result is unexpected, return to Figma and press `Command + Z`. The
+companion remains available under **Plugins → Development**, and its public
+path is `apps/figma-plugin/manifest.json`.
+
 ## Roll back
 
 Before the public `v0.1.0` release, the previous local Git commit remains the
