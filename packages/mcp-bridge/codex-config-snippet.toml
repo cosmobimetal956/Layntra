@@ -1,3 +1,0 @@
-[mcp_servers.ai_poster]
-command = "node"
-args = ["/Users/alchemistthe/Documents/codex/ai-poster-assistant/mcp-bridge/server.js"]

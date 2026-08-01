@@ -1,4 +1,4 @@
-# Product brief: Figma Local MCP
+# Product brief: Layntra
 
 ## User and problem
 
@@ -13,8 +13,9 @@ Figma's current seat policy.
 
 ## Outcome
 
-A user installs once, opens a Figma file, starts one visible plugin, and asks
-Codex for a design in plain language. The result remains editable in Figma.
+A user installs once, opens a Figma file, starts the visible companion, invokes
+`$layntra`, reviews the explicit target and plan, and applies only when ready.
+The result remains editable in Figma.
 
 ## Non-goals for 0.2
 
@@ -28,7 +29,8 @@ Codex for a design in plain language. The result remains editable in Figma.
 
 - Core Codex Skill contains no poster-specific assumptions.
 - Poster automation remains available as an optional example Skill.
-- `get_status` diagnoses bridge and Figma connection without a stack trace.
+- `$layntra status` diagnoses bridge and Figma connection without a stack trace.
+- Read-only intents never write and write intents wait for explicit approval.
 - A visible Figma window explains the three-step usage loop.
 - One repository command installs the Codex plugin.
 - Chinese beginner documentation covers install, daily use, recovery, privacy.

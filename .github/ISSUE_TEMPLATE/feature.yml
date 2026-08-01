@@ -1,0 +1,25 @@
+name: Feature proposal
+description: Propose a controlled product-manager workflow.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: Who is blocked and what outcome do they need?
+    validations:
+      required: true
+  - type: textarea
+    id: control
+    attributes:
+      label: Target and control boundary
+      description: Explain read/write mode, confirmation, recovery, and what must remain unchanged.
+    validations:
+      required: true
+  - type: textarea
+    id: alternative
+    attributes:
+      label: Simpler alternatives considered
+    validations:
+      required: true

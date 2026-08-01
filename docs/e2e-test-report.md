@@ -3,7 +3,7 @@
 - Date: 2026-08-01
 - Environment: macOS, Codex Desktop, Figma Desktop 126.7.10
 - Workspace: personal Starter team (Free plan)
-- Test file: newly created disposable Figma Design file, `eceO8ea18yfB6Ixx52mO0v`
+- Test file: newly created disposable Figma Design file, a disposable Starter file
 
 ## Result: passed
 

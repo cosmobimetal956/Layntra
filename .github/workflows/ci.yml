@@ -8,14 +8,27 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: node --check code.js
-      - run: bash -n scripts/install-codex-plugin.sh
-      - run: npm --prefix plugins/ai-poster-assistant/mcp-bridge run check
-      - run: npm --prefix plugins/ai-poster-assistant/mcp-bridge test
+          cache: npm
+          cache-dependency-path: packages/mcp-bridge/package-lock.json
+      - run: npm install --ignore-scripts --package-lock=false
+      - run: npm ci --ignore-scripts
+        working-directory: packages/mcp-bridge
+      - run: npm run verify
+
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Scan Git history for verified secrets
+        uses: trufflesecurity/trufflehog@82df476e759c1448517fac6bfb3677685cdcd78a
+        with:
+          extra_args: --only-verified

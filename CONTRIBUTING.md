@@ -1,17 +1,39 @@
-# Contributing
+# Contributing to Layntra
 
-Requirements: Figma Desktop and Node.js 20 or newer.
+Thank you for helping make controlled design automation understandable to more
+people.
 
-1. Import `manifest.json` as a Figma Development Plugin.
-2. Run the plugin in an open design file.
-3. Install the repository marketplace in Codex.
-4. Run the checks:
+## Development setup
 
-   ```bash
-   node --check code.js
-   npm --prefix plugins/ai-poster-assistant/mcp-bridge run check
-   npm --prefix plugins/ai-poster-assistant/mcp-bridge test
-   ```
+Requirements: Node.js 20+, Codex, and Figma Desktop for real E2E work.
 
-Keep MCP operations bounded, validate tool inputs, and preserve editable Figma
-layers. Destructive operations require design review and explicit confirmation.
+```bash
+npm install --ignore-scripts --package-lock=false
+npm --prefix packages/mcp-bridge ci --ignore-scripts
+npm run verify
+```
+
+## Architecture boundaries
+
+- `skills/layntra` owns user intent, target selection, plan approval, and
+  post-write reporting.
+- `packages/mcp-bridge` owns schemas, limits, timeouts, correlation, and local
+  transport.
+- `apps/figma-plugin` owns Figma document access and stale-context enforcement.
+
+Do not bypass `$layntra plan`, `$layntra apply`, `expectedContext`, or the
+post-write read. Deletion and arbitrary code execution require a new approved
+design and security review.
+
+## Tests and documentation
+
+Add a failing regression test before changing behavior. Run `npm run verify`
+before every pull request. Changes to the user journey must update English and
+Simplified Chinese together. Real tests must use a disposable personal Starter
+file and must not publish local paths, account data, file IDs, or business
+content.
+
+Maintainers use `bd` for repository tasks. Contributors may open a GitHub issue
+without installing `bd`.
+
+By contributing, you agree that your work is provided under the MIT License.
